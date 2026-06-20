@@ -208,35 +208,45 @@ public class DoctorDAO {
 	// Update Doctor Profile
 	public boolean updateDoctorProfile(Doctor doctor) {
 
-		boolean status = false;
+	    boolean status = false;
 
-		try {
-			Connection con = DBConnection.getConnection();
+	    try {
 
-			String query = "UPDATE doctors SET full_name=?, email=?, mobile=?, qualification=?, password=? WHERE doctor_id=?";
+	        Connection con = DBConnection.getConnection();
 
-			PreparedStatement ps = con.prepareStatement(query);
+	        String query =
+	                "UPDATE doctors SET "
+	                + "full_name=?, "
+	                + "username=?, "
+	                + "email=?, "
+	                + "mobile=?, "
+	                + "gender=? "
+	                + "WHERE doctor_id=?";
 
-			ps.setString(1, doctor.getFullName());
-			ps.setString(2, doctor.getEmail());
-			ps.setString(3, doctor.getMobile());
-			ps.setString(4, doctor.getQualification());
-			ps.setString(5, doctor.getPassword());
-			ps.setInt(6, doctor.getDoctorId());
+	        PreparedStatement ps =
+	                con.prepareStatement(query);
 
-			int rowsAffected = ps.executeUpdate();
+	        ps.setString(1, doctor.getFullName());
+	        ps.setString(2, doctor.getUsername());
+	        ps.setString(3, doctor.getEmail());
+	        ps.setString(4, doctor.getMobile());
+	        ps.setString(5, doctor.getGender());
+	        ps.setInt(6, doctor.getDoctorId());
 
-			if (rowsAffected > 0) {
-				status = true;
-			}
+	        int rowsAffected = ps.executeUpdate();
 
-			ps.close();
-			con.close();
+	        if (rowsAffected > 0) {
+	            status = true;
+	        }
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	        ps.close();
+	        con.close();
 
-		return status;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return status;
 	}
 }
+	

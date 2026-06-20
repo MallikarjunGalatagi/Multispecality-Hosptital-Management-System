@@ -1,158 +1,156 @@
+
 <%@ page import="java.util.List"%>
 <%@ page import="com.hospital_management.model.Doctor"%>
 <%@ page import="com.hospital_management.model.Appointment"%>
 <%@ page import="com.hospital_management.dao.AppointmentDAO"%>
 
 <%
-    // Check Doctor Session
-    Doctor doctor = (Doctor) session.getAttribute("loggedInDoctor");
+Doctor doctor =
+        (Doctor) session.getAttribute("loggedInDoctor");
 
-    if (doctor == null) {
-        response.sendRedirect("doctor_login.jsp");
-        return;
-    }
+AppointmentDAO appointmentDAO = new AppointmentDAO();
 
-    // Load Appointments for Logged-in Doctor
-    AppointmentDAO appointmentDAO = new AppointmentDAO();
-
-    List<Appointment> appointmentList =
-            appointmentDAO.getAppointmentsByDoctorId(
-                    doctor.getDoctorId());
+List<Appointment> appointmentList =
+        appointmentDAO.getAppointmentsByDoctorId(
+                doctor.getDoctorId());
 %>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>My Appointments</title>
-</head>
-<body>
+<div class="appointment-page">
 
-    <h1>📋 My Appointments</h1>
-    <hr>
+    <h2 class="page-title">
+        <i class="fas fa-calendar-check"></i> My Appointments
+    </h2>
 
-    <h3>
-        Welcome, Dr. <%= doctor.getFullName() %>
-    </h3>
+    <div class="table-container">
 
-    <br>
+        <table class="appointment-table">
 
-    <a href="doctor_dashboard.jsp">
-        ⬅ Back to Dashboard
-    </a>
+            <thead>
+                <tr>
+                    <th>Appointment ID</th>
+                    <th>Patient Name</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
 
-    <br><br>
+            <tbody>
 
-    <table border="1" cellpadding="10" cellspacing="0">
-
-        <tr>
-            <th>Appointment ID</th>
-            <th>Patient Name</th>
-            <th>Appointment Date</th>
-            <th>Appointment Time</th>
-            <th>Status</th>
-            <th>Action</th>
-        </tr>
-
-        <%
+            <%
             if (appointmentList.isEmpty()) {
-        %>
+            %>
 
-        <tr>
-            <td colspan="6" align="center">
-                No appointments available.
-            </td>
-        </tr>
+                <tr>
+                    <td colspan="6" style="text-align:center;">
+                        No appointments available.
+                    </td>
+                </tr>
 
-        <%
+            <%
             } else {
 
                 for (Appointment appointment : appointmentList) {
-        %>
+            %>
 
-        <tr>
+                <tr>
 
-            <td>
-                <%= appointment.getAppointmentId() %>
-            </td>
+                    <td>
+                        <%= appointment.getAppointmentId() %>
+                    </td>
 
-            <td>
-                <%= appointment.getPatientName() %>
-            </td>
+                    <td>
+                        <%= appointment.getPatientName() %>
+                    </td>
 
-            <td>
-                <%= appointment.getAppointmentDate() == null
-                        ? "-"
-                        : appointment.getAppointmentDate() %>
-            </td>
+                    <td>
+                        <%= appointment.getAppointmentDate() == null
+                                ? "-"
+                                : appointment.getAppointmentDate() %>
+                    </td>
 
-            <td>
-                <%= appointment.getAppointmentTime() == null
-                        ? "-"
-                        : appointment.getAppointmentTime() %>
-            </td>
+                    <td>
+                        <%= appointment.getAppointmentTime() == null
+                                ? "-"
+                                : appointment.getAppointmentTime() %>
+                    </td>
 
-            <td>
-                <%= appointment.getStatus() %>
-            </td>
+                    <td>
 
-            <td>
+                        <%
+                        String status =
+                                appointment.getStatus();
 
-                <%
-                    if ("Confirmed".equalsIgnoreCase(
-                            appointment.getStatus())) {
-                %>
+                        if ("Confirmed".equalsIgnoreCase(status)) {
+                        %>
 
-                    <a href="add_prescription.jsp?appointmentId=<%= appointment.getAppointmentId() %>">
-                        💊 Add Prescription
-                    </a>
+                            <span class="status-badge status-approved">
+                                Confirmed
+                            </span>
 
-                <%
-                    } else if ("Pending".equalsIgnoreCase(
-                            appointment.getStatus())) {
-                %>
+                        <%
+                        } else if ("Pending".equalsIgnoreCase(status)) {
+                        %>
 
-                    Pending Approval
+                            <span class="status-badge status-pending">
+                                Pending
+                            </span>
 
-                <%
-                    } else if ("Rejected".equalsIgnoreCase(
-                            appointment.getStatus())) {
-                %>
+                        <%
+                        } else {
+                        %>
 
-                    Rejected
+                            <span class="status-badge status-cancelled">
+                                Rejected
+                            </span>
 
-                <%
-                    } else {
-                %>
+                        <%
+                        }
+                        %>
 
-                    -
+                    </td>
 
-                <%
-                    }
-                %>
+                    <td>
 
-            </td>
+                        <%
+                        if ("Confirmed".equalsIgnoreCase(status)) {
+                        %>
 
-        </tr>
+                            <a class="auth-btn"
+                               href="add_prescription.jsp?appointmentId=<%= appointment.getAppointmentId() %>">
+                                <i class="fas fa-file-medical"></i> Add Prescription
+                            </a>
 
-        <%
+                        <%
+                        } else if ("Pending".equalsIgnoreCase(status)) {
+                        %>
+
+                            Pending Approval
+
+                        <%
+                        } else {
+                        %>
+
+                            -
+                        <%
+                        }
+                        %>
+
+                    </td>
+
+                </tr>
+
+            <%
                 }
             }
-        %>
+            %>
 
-    </table>
+            </tbody>
 
-    <br><br>
+        </table>
 
-    <a href="doctor_dashboard.jsp">
-        ⬅ Back to Dashboard
-    </a>
+    </div>
 
-  
+</div>
 
-    <a href="<%= request.getContextPath() %>/DoctorLogoutServlet">
-        🚪 Logout
-    </a>
-
-</body>
-</html>

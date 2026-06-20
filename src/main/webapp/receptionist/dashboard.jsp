@@ -1,73 +1,165 @@
 <%@ page import="com.hospital_management.model.Receptionist"%>
-<%@ page import="jakarta.servlet.http.HttpSession"%>
 
 <%
-    HttpSession currentSession = request.getSession(false);
+Receptionist receptionist =
+(Receptionist) session.getAttribute("loggedInReceptionist");
 
-    if (currentSession == null ||
-        currentSession.getAttribute("loggedInReceptionist") == null) {
+if(receptionist == null){
+response.sendRedirect("receptionist_login.jsp");
+return;
+}
 
-        response.sendRedirect(
-            request.getContextPath()
-            + "/receptionist/receptionist_login.jsp");
-        return;
-    }
+String selectedPage = request.getParameter("page");
 
-    Receptionist receptionist =
-        (Receptionist) currentSession.getAttribute("loggedInReceptionist");
+if(selectedPage == null){
+selectedPage = "dashboard";
+}
 %>
 
 <!DOCTYPE html>
+
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Receptionist Dashboard</title>
+
+<link rel="stylesheet" href="../css/navbar.css">
+<link rel="stylesheet" href="../css/footer.css">
+<link rel="stylesheet" href="../css/common.css">
+<link rel="stylesheet" href="../css/receptionist.css">
+<link rel="stylesheet" href="../css/auth.css">
+<link rel="stylesheet" href="../css/style.css">
+
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
 </head>
+
 <body>
 
-    <h1>👩‍💼 Receptionist Dashboard</h1>
-    <hr>
+<div class="page-wrapper">
 
-    <h3>
-        Welcome,
-        <%= receptionist.getFullName() %>
-    </h3>
+<%@ include file="../common/navbar.jsp"%>
 
-    <p>You have successfully logged in.</p>
+<div class="dashboard-layout">
 
-    <hr>
+    <%@ include file="receptionist_sidebar.jsp"%>
 
-    <h4>👤 My Profile</h4>
+    <div class="content-area">
 
-    <a href="my_profile.jsp">👤 View My Profile</a>
+        <%
 
-    <br><br>
+        if("profile".equals(selectedPage)){
+        %>
 
-    <hr>
+            <jsp:include page="my_profile.jsp"/>
 
-    <h4>📋 Appointment Management</h4>
+        <%
+        }
 
-    <a href="view_appointments.jsp">
-        📋 View Appointment Requests
-    </a>
+        else if("appointments".equals(selectedPage)){
+        %>
 
-    <br><br>
+            <jsp:include page="view_appointments.jsp"/>
 
-    <hr>
+        <%
+        }
 
-    <h4>🔔 Notifications</h4>
+        else if("notifications".equals(selectedPage)){
+        %>
 
-    <a href="notifications.jsp">
-        🔔 View Notifications
-    </a>
+            <jsp:include page="notifications.jsp"/>
 
-    <br><br>
+        <%
+        }
 
-    <hr>
+        else{
+        %>
 
-    <a href="<%= request.getContextPath() %>/ReceptionistLogoutServlet">
-        🚪 Logout
-    </a>
+            <h1 class="page-title">
+                Welcome,
+                <%= receptionist.getFullName() %>
+            </h1>
+
+            <p class="welcome-text">
+                Manage appointment requests,
+                patient scheduling and hospital
+                communications efficiently.
+            </p>
+
+            <div class="stats-container">
+
+                <div class="stats-card reception-card">
+
+                    <i class="fas fa-calendar-check"></i>
+
+                    <h3>
+                        Appointments
+                    </h3>
+
+                    <p>
+                        Manage patient appointment requests.
+                    </p>
+
+                </div>
+
+                <div class="stats-card reception-card">
+
+                    <i class="fas fa-users"></i>
+
+                    <h3>
+                        Patients
+                    </h3>
+
+                    <p>
+                        Assist patients and coordinate visits.
+                    </p>
+
+                </div>
+
+                <div class="stats-card reception-card">
+
+                    <i class="fas fa-bell"></i>
+
+                    <h3>
+                        Notifications
+                    </h3>
+
+                    <p>
+                        View important hospital updates.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="content-card">
+
+                <h2>
+                    Receptionist Services
+                </h2>
+
+                <p>
+                    Use the menu on the left to manage
+                    appointment requests, maintain your
+                    profile and receive hospital
+                    notifications.
+                </p>
+
+            </div>
+
+        <%
+        }
+        %>
+
+    </div>
+
+</div>
+
+<%@ include file="../common/footer.jsp"%>
+
+</div>
 
 </body>
 </html>

@@ -1,3 +1,4 @@
+
 package com.hospital_management.controller;
 
 import java.io.IOException;
@@ -21,22 +22,40 @@ public class PatientLoginServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request,
+                          HttpServletResponse response)
             throws ServletException, IOException {
 
-        String usernameOrEmail = request.getParameter("usernameOrEmail");
-        String password = request.getParameter("password");
+        String usernameOrEmail =
+                request.getParameter("usernameOrEmail");
+
+        String password =
+                request.getParameter("password");
 
         PatientDAO patientDAO = new PatientDAO();
-        Patient patient = patientDAO.loginPatient(usernameOrEmail, password);
+
+        Patient patient =
+                patientDAO.loginPatient(
+                        usernameOrEmail,
+                        password);
 
         if (patient != null) {
-            HttpSession session = request.getSession();
-            session.setAttribute("loggedInPatient", patient);
 
-            response.sendRedirect("patient/patient_dashboard.jsp");
+            HttpSession session =
+                    request.getSession();
+
+            session.setAttribute(
+                    "loggedInPatient",
+                    patient);
+
+            response.sendRedirect(
+                    "patient/patient_dashboard.jsp");
+
         } else {
-            response.sendRedirect("patient/patient_login.jsp");
+
+            response.sendRedirect(
+                    "patient/patient_login.jsp?error=invalid");
         }
     }
 }
+

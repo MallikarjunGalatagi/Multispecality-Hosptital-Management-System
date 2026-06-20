@@ -28,6 +28,6 @@ public class AdminLogoutServlet extends HttpServlet {
         }
 
         // Redirect to Home Page
-        response.sendRedirect(request.getContextPath() + "/index.html");
+        response.sendRedirect(request.getContextPath() + "/index.jsp");
     }
 }

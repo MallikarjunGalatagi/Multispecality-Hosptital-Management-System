@@ -1,68 +1,87 @@
-<%@ page import="java.util.List" %>
-<%@ page import="com.hospital_management.model.Patient" %>
-<%@ page import="com.hospital_management.model.Appointment" %>
-<%@ page import="com.hospital_management.dao.AppointmentDAO" %>
+
+<%@ page import="java.util.List"%>
+<%@ page import="com.hospital_management.model.Patient"%>
+<%@ page import="com.hospital_management.model.Appointment"%>
+<%@ page import="com.hospital_management.dao.AppointmentDAO"%>
 
 <%
-    Patient patient = (Patient) session.getAttribute("loggedInPatient");
 
-    if (patient == null) {
-        response.sendRedirect("patient_login.jsp");
-        return;
-    }
+Patient patient =
+        (Patient) session.getAttribute("loggedInPatient");
 
-    AppointmentDAO appointmentDAO = new AppointmentDAO();
-    List<Appointment> appointmentList =
-            appointmentDAO.getAppointmentsByPatientId(patient.getPatientId());
+if(patient == null){
+    response.sendRedirect("patient_login.jsp");
+    return;
+}
+
+AppointmentDAO appointmentDAO =
+        new AppointmentDAO();
+
+List<Appointment> appointmentList =
+        appointmentDAO.getAppointmentsByPatientId(
+                patient.getPatientId());
+
 %>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>My Appointments</title>
-</head>
-<body>
+<div class="appointment-page">
 
-    <h1>My Appointments</h1>
-    <hr>
+    <h2>
+        <i class="fas fa-calendar-check"></i>
+        My Appointments
+    </h2>
 
-   <table border="1" cellpadding="10" cellspacing="0">
-    <tr>
-        <th>Appointment ID</th>
-        <th>Doctor Name</th>
-        <th>Appointment Date</th>
-        <th>Appointment Time</th>
-        <th>Status</th>
-    </tr>
+    <p class="auth-subtitle">
+        View all your booked appointments
+    </p>
 
-    <%
-        for (Appointment appointment : appointmentList) {
-    %>
-    <tr>
-        <td><%= appointment.getAppointmentId() %></td>
-        <td><%= appointment.getDoctorName() %></td>
-        <td>
-            <%= appointment.getAppointmentDate() == null
-                    ? "-"
-                    : appointment.getAppointmentDate() %>
-        </td>
-        <td>
-            <%= appointment.getAppointmentTime() == null
-                    ? "-"
-                    : appointment.getAppointmentTime() %>
-        </td>
-        <td><%= appointment.getStatus() %></td>
-    </tr>
-    <%
-        }
-    %>
+    <table class="appointment-table appointment-full-table">
+			<thead>
 
-</table>
+				<tr>
+					<th>ID</th>
+					<th>Doctor</th>
+					<th>Date</th>
+					<th>Time</th>
+					<th>Status</th>
+				</tr>
 
-    <br><br>
+			</thead>
 
-    <a href="patient_dashboard.jsp">Back to Dashboard</a>
+			<tbody>
 
-</body>
-</html>
+				<%
+                for(Appointment appointment : appointmentList){
+                %>
+
+				<tr>
+
+					<td><%= appointment.getAppointmentId() %></td>
+
+					<td><%= appointment.getDoctorName() %></td>
+
+					<td><%= appointment.getAppointmentDate()==null
+                                ? "-"
+                                : appointment.getAppointmentDate() %></td>
+
+					<td><%= appointment.getAppointmentTime()==null
+                                ? "-"
+                                : appointment.getAppointmentTime() %></td>
+
+					<td><span class="status-badge"> <%= appointment.getStatus() %>
+
+					</span></td>
+
+				</tr>
+
+				<%
+                }
+                %>
+
+			</tbody>
+
+		</table>
+
+	</div>
+
+</div>
+

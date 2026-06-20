@@ -83,37 +83,49 @@ public class PatientDAO {
         return patient;
     }
     
+   
  // Update Patient Profile
-    public boolean updatePatient(Patient patient) {
+ public boolean updatePatient(Patient patient) {
 
-        boolean status = false;
+     boolean status = false;
 
-        try {
-            Connection con = DBConnection.getConnection();
+     try {
 
-            String query = "UPDATE patients SET full_name=?, email=?, mobile=?, password=? WHERE patient_id=?";
+         Connection con = DBConnection.getConnection();
 
-            PreparedStatement ps = con.prepareStatement(query);
+         String query =
+                 "UPDATE patients SET "
+                 + "full_name=?, "
+                 + "username=?, "
+                 + "email=?, "
+                 + "mobile=?, "
+                 + "gender=? "
+                 + "WHERE patient_id=?";
 
-            ps.setString(1, patient.getFullName());
-            ps.setString(2, patient.getEmail());
-            ps.setString(3, patient.getMobile());
-            ps.setString(4, patient.getPassword());
-            ps.setInt(5, patient.getPatientId());
+         PreparedStatement ps =
+                 con.prepareStatement(query);
 
-            int rowsAffected = ps.executeUpdate();
+         ps.setString(1, patient.getFullName());
+         ps.setString(2, patient.getUsername());
+         ps.setString(3, patient.getEmail());
+         ps.setString(4, patient.getMobile());
+         ps.setString(5, patient.getGender());
+         ps.setInt(6, patient.getPatientId());
 
-            if (rowsAffected > 0) {
-                status = true;
-            }
+         int rowsAffected = ps.executeUpdate();
 
-            ps.close();
-            con.close();
+         if (rowsAffected > 0) {
+             status = true;
+         }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+         ps.close();
+         con.close();
 
-        return status;
-    }
+     } catch (Exception e) {
+         e.printStackTrace();
+     }
+
+     return status;
+ }
+
 }

@@ -3,74 +3,111 @@
 <%@ page import="com.hospital_management.model.Receptionist"%>
 
 <%
-    // Admin session check
-    Object admin = session.getAttribute("loggedInAdmin"); 
-    // Change "loggedInAdmin" if you use a different session attribute
+Object admin = session.getAttribute("loggedInAdmin");
 
-    if (admin == null) {
-        response.sendRedirect("../admin/admin_login.jsp");
-        return;
-    }
+if(admin == null){
+response.sendRedirect("../admin/admin_login.jsp");
+return;
+}
 
-    ReceptionistDAO receptionistDAO = new ReceptionistDAO();
-    List<Receptionist> receptionistList = receptionistDAO.getAllReceptionists();
+ReceptionistDAO receptionistDAO =
+new ReceptionistDAO();
+
+List<Receptionist> receptionistList =
+receptionistDAO.getAllReceptionists();
 %>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>View Receptionists</title>
-</head>
-<body>
+<div class="content-card">
 
-    <h2>View Receptionists</h2>
-    <hr><br>
+<h2 class="page-title">
+    <i class="fas fa-user-tie"></i>
+    Receptionists
+</h2>
 
-    <table border="1" cellpadding="10" cellspacing="0">
-        <tr>
-            <th>Receptionist ID</th>
-            <th>Full Name</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Mobile</th>
-            <th>Created At</th>
-        </tr>
+<p class="auth-subtitle">
+    View all registered receptionists.
+</p>
 
-        <%
-            if (receptionistList != null && !receptionistList.isEmpty()) {
-                for (Receptionist receptionist : receptionistList) {
-        %>
+<div class="table-container">
 
-        <tr>
-            <td><%= receptionist.getReceptionistId() %></td>
-            <td><%= receptionist.getFullName() %></td>
-            <td><%= receptionist.getUsername() %></td>
-            <td><%= receptionist.getEmail() %></td>
-            <td><%= receptionist.getMobile() %></td>
-            <td><%= receptionist.getCreatedAt() %></td>
-        </tr>
+    <table class="appointment-table">
+
+        <thead>
+
+            <tr>
+                <th>ID</th>
+                <th>Full Name</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Created At</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
 
         <%
-                }
-            } else {
+        if(receptionistList != null &&
+           !receptionistList.isEmpty()){
+
+            for(Receptionist receptionist
+                    : receptionistList){
         %>
 
-        <tr>
-            <td colspan="6">No Receptionists Found.</td>
-        </tr>
+            <tr>
+
+                <td>
+                    <%= receptionist.getReceptionistId() %>
+                </td>
+
+                <td>
+                    <%= receptionist.getFullName() %>
+                </td>
+
+                <td>
+                    <%= receptionist.getUsername() %>
+                </td>
+
+                <td>
+                    <%= receptionist.getEmail() %>
+                </td>
+
+                <td>
+                    <%= receptionist.getMobile() %>
+                </td>
+
+                <td>
+                    <%= receptionist.getCreatedAt() %>
+                </td>
+
+            </tr>
 
         <%
             }
+        }
+        else{
         %>
+
+            <tr>
+
+                <td colspan="6"
+                    style="text-align:center;padding:25px;">
+
+                    No Receptionists Found
+
+                </td>
+
+            </tr>
+
+        <%
+        }
+        %>
+
+        </tbody>
 
     </table>
 
-    <br><br>
+</div>
 
-    <a href="<%=request.getContextPath()%>/admin/dashboard.jsp">
-        ⬅ Back to Admin Dashboard
-    </a>
-
-</body>
-</html>
+</div>

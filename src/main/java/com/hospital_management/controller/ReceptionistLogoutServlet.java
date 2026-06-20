@@ -30,6 +30,6 @@ public class ReceptionistLogoutServlet extends HttpServlet {
 
         // Redirect to Home Page
         response.sendRedirect(
-                request.getContextPath() + "/index.html");
+                request.getContextPath() + "/index.jsp");
     }
 }

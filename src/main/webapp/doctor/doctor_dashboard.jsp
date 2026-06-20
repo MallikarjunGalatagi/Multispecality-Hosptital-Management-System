@@ -1,20 +1,19 @@
+
 <%@ page import="com.hospital_management.model.Doctor"%>
-<%@ page import="jakarta.servlet.http.HttpSession"%>
 
 <%
-    HttpSession currentSession = request.getSession(false);
+Doctor doctor = (Doctor) session.getAttribute("loggedInDoctor");
 
-    if (currentSession == null ||
-        currentSession.getAttribute("loggedInDoctor") == null) {
+if (doctor == null) {
+    response.sendRedirect("doctor_login.jsp");
+    return;
+}
 
-        response.sendRedirect(
-            request.getContextPath()
-            + "/doctor/doctor_login.jsp");
-        return;
-    }
+String selectedPage = request.getParameter("page");
 
-    Doctor doctor =
-        (Doctor) currentSession.getAttribute("loggedInDoctor");
+if (selectedPage == null) {
+    selectedPage = "dashboard";
+}
 %>
 
 <!DOCTYPE html>
@@ -22,49 +21,154 @@
 <head>
 <meta charset="UTF-8">
 <title>Doctor Dashboard</title>
+
+<link rel="stylesheet" href="../css/navbar.css">
+<link rel="stylesheet" href="../css/footer.css">
+<link rel="stylesheet" href="../css/common.css">
+<link rel="stylesheet" href="../css/doctor.css">
+<link rel="stylesheet" href="../css/auth.css">
+<link rel="stylesheet" href="../css/style.css">
+
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
 </head>
-<body>
 
-	<h1>👨‍⚕️ Doctor Dashboard</h1>
-	<hr>
+<body class="doctor-theme">
 
-	<h3>
-		Welcome, Dr.
-		<%= doctor.getFullName() %>
-	</h3>
+<div class="page-wrapper">
 
-	<p>You have successfully logged in.</p>
+    <%@ include file="../common/navbar.jsp"%>
 
-	<hr>
+    <div class="dashboard-layout">
 
-	<h4>👤 My Profile</h4>
+        <%@ include file="doctor_sidebar.jsp"%>
 
-	<a href="my_profile.jsp"> 👤 View My Profile </a>
+        <div class="content-area">
 
-	<br>
-	<br>
+            <%
 
-	<hr>
+            if("profile".equals(selectedPage)
+                    || "myprofile".equals(selectedPage)){
 
-	<h4>📋 Appointment Management</h4>
+                request.setAttribute("doctor", doctor);
 
-	<a href="view_my_appointment.jsp"> 📋 View My Appointments </a>
-	<br>
-	<br>
+            %>
 
-	<hr>
+                <jsp:include page="my_profile.jsp"/>
 
-	<h4>🔔 Notifications</h4>
+            <%
+            }
+            
+            else if("myprofile".equals(page)){
+            	%>
+            	    <jsp:include page="my_profile.jsp"/>
+            	<%
+            	}
 
-	<a href="notifications.jsp"> 🔔 View Notifications </a>
+            else if("appointments".equals(selectedPage)){
+            %>
 
-	<br>
-	<br>
+                <jsp:include page="view_my_appointment.jsp"/>
 
-	<hr>
+            <%
+            }
 
-	<a href="<%= request.getContextPath() %>/DoctorLogoutServlet"> 🚪
-		Logout </a>
+            else if("notifications".equals(selectedPage)){
+            %>
+
+                <jsp:include page="notifications.jsp"/>
+
+            <%
+            }
+
+            else{
+            %>
+
+                <h1 class="page-title">
+                    Welcome, Dr. <%= doctor.getFullName() %>
+                </h1>
+
+                <p class="welcome-text">
+                    Manage appointments, prescriptions and patient records
+                    efficiently from one place.
+                </p>
+
+                <div class="stats-container">
+
+                    <div class="stats-card">
+
+                        <i class="fas fa-calendar-check"></i>
+
+                        <h3>Appointments</h3>
+
+                        <p>
+                            View and manage patient appointments.
+                        </p>
+
+                    </div>
+
+                    <div class="stats-card" >
+
+                        <i class="fas fa-file-medical"></i>
+
+                        <h3>Prescriptions</h3>
+
+                        <p>
+                            Add prescriptions for confirmed appointments.
+                        </p>
+
+                    </div>
+
+                    <div class="stats-card">
+
+                        <i class="fas fa-bell"></i>
+
+                        <h3>Notifications</h3>
+
+                        <p>
+                            Stay updated with hospital alerts.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="content-card">
+
+                    <h2>Doctor Services</h2>
+
+                    <p>
+                        Use the menu on the left to
+                    </p>
+
+                    <ul style="margin-left:20px; line-height:2;">
+
+                        <li>View Your Profile</li>
+
+                        <li>Manage Patient Appointments</li>
+
+                        <li>Add Prescriptions</li>
+
+                        <li>Check Notifications</li>
+
+                    </ul>
+
+                </div>
+
+            <%
+            }
+            %>
+
+        </div>
+
+    </div>
+
+    <%@ include file="../common/footer.jsp"%>
+
+</div>
 
 </body>
 </html>
+

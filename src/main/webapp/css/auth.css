@@ -1,0 +1,250 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* ========================= */
+/* GLOBAL */
+/* ========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#f4f7fc;
+    padding:40px 20px;
+}
+
+/* ========================= */
+/* AUTH CONTAINER */
+/* ========================= */
+
+.auth-container{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:40px 0;
+}
+
+/* ========================= */
+/* AUTH CARD */
+/* ========================= */
+
+.auth-card{
+    width:100%;
+    max-width:550px;
+    background:#ffffff;
+    border-radius:20px;
+    padding:35px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.08);
+    transition:all 0.35s ease;
+}
+
+.auth-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 15px 30px rgba(0,0,0,0.12);
+}
+
+/* ========================= */
+/* AUTH IMAGE */
+/* ========================= */
+
+.auth-icon{
+    width:110px;
+    height:110px;
+    margin:auto;
+    margin-bottom:20px;
+    border-radius:50%;
+    overflow:hidden;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.auth-icon img{
+    width:110px;
+    height:110px;
+    object-fit:cover;
+    border-radius:50%;
+}
+
+/* ========================= */
+/* TITLE */
+/* ========================= */
+
+.auth-card h2{
+    text-align:center;
+    font-size:30px;
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.auth-subtitle{
+    text-align:center;
+    color:#64748b;
+    line-height:1.7;
+    margin-bottom:25px;
+}
+
+/* ========================= */
+/* FORM */
+/* ========================= */
+
+.input-group{
+    margin-bottom:18px;
+}
+
+.input-group label{
+    display:none;
+}
+
+/* ========================= */
+/* INPUTS */
+/* ========================= */
+
+.input-group input,
+.input-group select{
+    width:100%;
+    padding:15px 18px;
+    border:1px solid #dbe3f0;
+    border-radius:12px;
+    outline:none;
+    font-size:16px;
+    color:#1e293b;
+    background:#ffffff;
+    transition:all 0.3s ease;
+}
+
+.input-group input::placeholder{
+    color:#94a3b8;
+}
+
+.input-group select{
+    color:#64748b;
+}
+
+/* ========================= */
+/* PASSWORD BOX */
+/* ========================= */
+
+.password-box{
+    position:relative;
+}
+
+.password-box input{
+    padding-right:50px;
+}
+
+.password-box i{
+    position:absolute;
+    right:18px;
+    top:50%;
+    transform:translateY(-50%);
+    cursor:pointer;
+    color:#64748b;
+    font-size:18px;
+    transition:all 0.3s ease;
+}
+
+/* ========================= */
+/* BUTTON */
+/* ========================= */
+
+.auth-btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+
+    color:white;
+    font-size:17px;
+    font-weight:600;
+    cursor:pointer;
+    transition:all 0.3s ease;
+    margin-top:10px;
+}
+
+.auth-btn:hover{
+    transform:scale(1.03);
+}
+
+/* ========================= */
+/* LINKS */
+/* ========================= */
+
+.auth-links{
+    margin-top:25px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    text-align:center;
+}
+
+.auth-links a{
+    text-decoration:none;
+    font-weight:500;
+    transition:all 0.3s ease;
+}
+
+/* ========================= */
+/* ERROR MESSAGE */
+/* ========================= */
+
+.error-message{
+    background:#fee2e2;
+    color:#dc2626;
+    border:1px solid #fca5a5;
+    border-radius:10px;
+    padding:12px;
+    text-align:center;
+    font-weight:600;
+    margin-bottom:20px;
+}
+
+/* ========================= */
+/* SUCCESS MESSAGE */
+/* ========================= */
+
+.success-message{
+    background:#dcfce7;
+    color:#16a34a;
+    border:1px solid #86efac;
+    border-radius:10px;
+    padding:12px;
+    text-align:center;
+    font-weight:600;
+    margin-bottom:20px;
+}
+
+/* ========================= */
+/* RESPONSIVE */
+/* ========================= */
+
+@media(max-width:768px){
+
+    body{
+        padding:20px 10px;
+    }
+
+    .auth-card{
+        padding:25px;
+    }
+
+    .auth-card h2{
+        font-size:26px;
+    }
+
+    .auth-icon{
+        width:95px;
+        height:95px;
+    }
+
+    .auth-icon img{
+        width:95px;
+        height:95px;
+    }
+
+}

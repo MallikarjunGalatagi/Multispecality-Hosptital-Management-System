@@ -1,0 +1,318 @@
+/* ===================================
+   PATIENT THEME
+=================================== */
+
+:root{
+    --patient-primary:#1565d8;
+    --patient-secondary:#2f80ed;
+    --patient-light:#eff6ff;
+    --patient-border:#bfdbfe;
+}
+
+/* ===================================
+   PAGE HEADINGS
+=================================== */
+
+.page-title,
+.content-card h2,
+.form-card h2,
+.table-container h2{
+    color:var(--patient-primary);
+}
+
+/* ===================================
+   SIDEBAR
+=================================== */
+
+.sidebar{
+    background:linear-gradient(
+        135deg,
+        var(--patient-primary),
+        var(--patient-secondary)
+    );
+}
+
+.sidebar a:hover{
+    background:rgba(255,255,255,0.18);
+    transform:translateX(6px);
+    box-shadow:0 5px 15px rgba(21,101,216,0.25);
+}
+
+.logout-link:hover{
+    background:rgba(255,255,255,0.22);
+}
+
+/* ===================================
+   CONTENT CARDS
+=================================== */
+
+.content-card{
+    border-top:5px solid var(--patient-primary);
+}
+
+.content-card:hover,
+.form-card:hover,
+.table-container:hover{
+    box-shadow:0 12px 30px rgba(21,101,216,0.15);
+}
+
+/* ===================================
+   STATS CARDS
+=================================== */
+
+.stats-card{
+    border-top:4px solid var(--patient-primary);
+}
+
+.stats-card:hover{
+    box-shadow:0 15px 30px rgba(21,101,216,0.25);
+}
+
+.stats-card i,
+.stats-card .fas{
+    color:var(--patient-primary);
+    font-size:34px;
+}
+
+.stats-card h3{
+    color:var(--patient-primary);
+    font-weight:700;
+}
+
+.stats-card p{
+    color:#64748b;
+}
+
+/* ===================================
+   PROFILE
+=================================== */
+
+.profile-details label{
+    color:var(--patient-primary);
+    font-weight:600;
+}
+
+.profile-details input{
+    border:1px solid var(--patient-border);
+    background:white;
+}
+
+.profile-details input:hover{
+    border-color:var(--patient-primary);
+}
+
+/* ===================================
+   BUTTONS
+=================================== */
+
+.patient-btn,
+.auth-btn,
+.btn,
+.card-btn,
+.submit-btn,
+.download-btn{
+    background:linear-gradient(
+        135deg,
+        var(--patient-primary),
+        var(--patient-secondary)
+    );
+    color:white;
+    border:none;
+}
+
+.patient-btn:hover,
+.auth-btn:hover,
+.btn:hover,
+.card-btn:hover,
+.submit-btn:hover,
+.download-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 25px rgba(21,101,216,0.35);
+}
+
+.card-btn,
+.btn,
+.download-btn,
+a.card-btn{
+    text-decoration:none !important;
+}
+
+/* ===================================
+   TABLES
+=================================== */
+
+.appointment-table th,
+.data-table th{
+    background:linear-gradient(
+        135deg,
+        var(--patient-primary),
+        var(--patient-secondary)
+    );
+}
+
+.appointment-table tr:hover,
+.data-table tr:hover{
+    background:var(--patient-light);
+}
+
+/* ===================================
+   STATUS BADGES
+=================================== */
+
+.status-approved{
+    background:#dbeafe;
+    color:var(--patient-primary);
+}
+
+/* ===================================
+   NOTIFICATIONS
+=================================== */
+
+.notification-card{
+    background:var(--patient-light);
+    border-left:5px solid var(--patient-primary);
+}
+
+.notification-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 10px 25px rgba(21,101,216,0.20);
+}
+
+.notification-card h4{
+    color:#0f172a;
+}
+
+.notification-card p{
+    color:#64748b;
+}
+
+.notification-card small{
+    color:#0f172a;
+}
+
+/* ===================================
+   DASHBOARD CARD
+=================================== */
+
+.dashboard-card{
+    background:var(--patient-light);
+    border-left:5px solid var(--patient-primary);
+}
+
+.dashboard-card:hover{
+    box-shadow:0 10px 25px rgba(21,101,216,0.25);
+}
+
+/* ===================================
+   SUCCESS MESSAGE
+=================================== */
+
+.success-message{
+    background:#dcfce7;
+    color:#15803d;
+    border:1px solid #bbf7d0;
+}
+
+/* ===================================
+   AUTH PAGES
+=================================== */
+
+.auth-icon{
+    background:linear-gradient(
+        135deg,
+        var(--patient-primary),
+        var(--patient-secondary)
+    );
+}
+
+.auth-card h2{
+    color:var(--patient-primary);
+}
+
+.input-group input:hover,
+.input-group select:hover,
+.input-group input:focus,
+.input-group select:focus{
+    border-color:var(--patient-primary) !important;
+    box-shadow:
+        0 0 0 4px rgba(21,101,216,0.18),
+        0 0 18px rgba(21,101,216,0.30) !important;
+}
+
+.password-box i:hover{
+    color:var(--patient-primary);
+}
+
+.auth-links a{
+    color:var(--patient-primary);
+    font-weight:600;
+}
+
+.auth-links a:hover{
+    color:#0d47a1;
+}
+
+/* ===================================
+   PATIENT PAGE HELPERS
+=================================== */
+
+.prescription-page,
+.notification-page{
+    width:100%;
+    padding:0;
+    margin:0;
+    background:transparent;
+    border:none;
+    box-shadow:none;
+}
+
+.prescription-page h2,
+.appointment-page h2{
+    color:var(--patient-primary);
+    font-size:24px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.prescription-page h2 i,
+.appointment-page h2 i{
+    color:var(--patient-primary);
+}
+
+
+/* Patient Appointment Table */
+
+.appointment-table{
+    width:100%;
+    border-collapse:separate;
+    border-spacing:0;
+    overflow:hidden;
+}
+
+.appointment-table thead th{
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
+    color:white;
+    padding:16px;
+    font-size:16px;
+    font-weight:600;
+}
+
+.appointment-table th,
+.appointment-table td{
+    text-align:center;
+    vertical-align:middle;
+}
+
+/* Left Rounded Corner */
+.appointment-table thead th:first-child{
+    border-top-left-radius:18px;
+    border-bottom-left-radius:18px;
+}
+
+/* Right Rounded Corner */
+.appointment-table thead th:last-child{
+    border-top-right-radius:18px;
+    border-bottom-right-radius:18px;
+}

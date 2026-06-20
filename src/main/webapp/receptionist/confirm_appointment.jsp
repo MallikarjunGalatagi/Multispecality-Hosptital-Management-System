@@ -2,101 +2,140 @@
 <%@ page import="com.hospital_management.model.Appointment"%>
 
 <%
-    int appointmentId =
-            Integer.parseInt(request.getParameter("id"));
+int appointmentId =
+Integer.parseInt(request.getParameter("id"));
 
-    AppointmentDAO appointmentDAO =
-            new AppointmentDAO();
+AppointmentDAO appointmentDAO =
+new AppointmentDAO();
 
-    Appointment appointment =
-            appointmentDAO.getAppointmentById(
-                    appointmentId);
+Appointment appointment =
+appointmentDAO.getAppointmentById(
+appointmentId);
 %>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Manage Appointment</title>
-</head>
-<body>
+<div class="content-card">
 
-    <h1>📋 Manage Appointment</h1>
-    <hr>
+```
+<h2 class="page-title">
+    <i class="fas fa-calendar-check"></i>
+    Manage Appointment
+</h2>
 
-    <table border="1" cellpadding="10" cellspacing="0">
-        <tr>
-            <th>Appointment ID</th>
-            <td><%= appointment.getAppointmentId() %></td>
-        </tr>
+<div class="profile-details">
 
-        <tr>
-            <th>Patient Name</th>
-            <td><%= appointment.getPatientName() %></td>
-        </tr>
+    <div>
+        <label>Appointment ID</label>
+        <input type="text"
+               value="<%= appointment.getAppointmentId() %>"
+               readonly>
+    </div>
 
-        <tr>
-            <th>Doctor Name</th>
-            <td><%= appointment.getDoctorName() %></td>
-        </tr>
+    <div>
+        <label>Patient Name</label>
+        <input type="text"
+               value="<%= appointment.getPatientName() %>"
+               readonly>
+    </div>
 
-        <tr>
-            <th>Status</th>
-            <td><%= appointment.getStatus() %></td>
-        </tr>
-    </table>
+    <div>
+        <label>Doctor Name</label>
+        <input type="text"
+               value="<%= appointment.getDoctorName() %>"
+               readonly>
+    </div>
+
+    <div>
+        <label>Status</label>
+        <input type="text"
+               value="<%= appointment.getStatus() %>"
+               readonly>
+    </div>
+
+</div>
+```
+
+</div>
+
+<br>
+
+<div class="content-card">
+
+```
+<h2>
+    <i class="fas fa-check-circle"></i>
+    Confirm Appointment
+</h2>
+
+<form action="<%= request.getContextPath() %>/UpdateAppointmentStatusServlet"
+      method="post">
+
+    <input type="hidden"
+           name="appointmentId"
+           value="<%= appointmentId %>">
+
+    <input type="hidden"
+           name="status"
+           value="Confirmed">
+
+    <div class="profile-details">
+
+        <div>
+            <label>Appointment Date</label>
+            <input type="date"
+                   name="appointmentDate"
+                   required>
+        </div>
+
+        <div>
+            <label>Appointment Time</label>
+            <input type="time"
+                   name="appointmentTime"
+                   required>
+        </div>
+
+    </div>
 
     <br>
-    <hr>
 
-    <h3>✅ Confirm Appointment</h3>
+    <button type="submit"
+            class="card-btn">
 
-    <form action="<%= request.getContextPath() %>/UpdateAppointmentStatusServlet"
-          method="post">
+        Confirm Appointment
 
-        <input type="hidden"
-               name="appointmentId"
-               value="<%= appointmentId %>">
+    </button>
 
-        <input type="hidden"
-               name="status"
-               value="Confirmed">
+</form>
+```
 
-        <label>Appointment Date:</label><br>
-        <input type="date"
-               name="appointmentDate"
-               required>
+</div>
 
-        <br><br>
+<br>
 
-        <label>Appointment Time:</label><br>
-        <input type="time"
-               name="appointmentTime"
-               required>
+<div class="content-card">
 
-        <br><br>
+```
+<h2>
+    <i class="fas fa-times-circle"></i>
+    Reject Appointment
+</h2>
 
-        <button type="submit">
-            ✅ Confirm Appointment
-        </button>
+<a href="<%= request.getContextPath() %>/UpdateAppointmentStatusServlet?appointmentId=<%= appointmentId %>&status=Rejected"
+   class="card-btn">
 
-    </form>
+   Reject Appointment
 
-    <br>
-    <hr>
+</a>
+```
 
-    <h3>❌ Reject Appointment</h3>
+</div>
 
-    <a href="<%= request.getContextPath() %>/UpdateAppointmentStatusServlet?appointmentId=<%= appointmentId %>&status=Rejected">
-        Reject Appointment
-    </a>
+<br>
 
-    <br><br>
-    <hr>
+<a href="receptionist_dashboard.jsp?page=appointments"
+class="card-btn">
 
-    <a href="view_appointments.jsp">
-        ⬅ Back to Appointment Requests
-    </a>
+```
+Back to Appointment Requests
+```
 
-</body>
-</html>
+</a>

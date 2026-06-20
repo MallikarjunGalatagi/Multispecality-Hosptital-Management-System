@@ -30,14 +30,21 @@ public class BookAppointmentServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
 
         if (session == null) {
-            response.sendRedirect("patient/patient_login.jsp");
+
+            response.sendRedirect(
+                    request.getContextPath()
+                    + "/patient/patient_login.jsp");
+
             return;
         }
 
         Patient patient = (Patient) session.getAttribute("loggedInPatient");
-
         if (patient == null) {
-            response.sendRedirect("patient/patient_login.jsp");
+
+            response.sendRedirect(
+                    request.getContextPath()
+                    + "/patient/patient_login.jsp");
+
             return;
         }
 
@@ -63,9 +70,7 @@ public class BookAppointmentServlet extends HttpServlet {
 
             NotificationDAO notificationDAO = new NotificationDAO();
 
-            // =====================================
             // Patient Notification
-            // =====================================
             Notification patientNotification = new Notification();
             patientNotification.setUserType("PATIENT");
             patientNotification.setUserId(patientId);
@@ -75,12 +80,10 @@ public class BookAppointmentServlet extends HttpServlet {
 
             notificationDAO.addNotification(patientNotification);
 
-            // =====================================
             // Receptionist Notification
-            // =====================================
             Notification receptionistNotification = new Notification();
             receptionistNotification.setUserType("RECEPTIONIST");
-            receptionistNotification.setUserId(1); // Default Receptionist account
+            receptionistNotification.setUserId(1);
 
             receptionistNotification.setTitle("New Appointment Request");
             receptionistNotification.setMessage(
@@ -88,11 +91,20 @@ public class BookAppointmentServlet extends HttpServlet {
 
             notificationDAO.addNotification(receptionistNotification);
 
-            // Redirect to My Appointments page
-            response.sendRedirect("patient/my_appointment.jsp");
+            // Success Message
+            session.setAttribute(
+                    "appointmentSuccess",
+                    "Appointment Booked Successfully!");
+
+            response.sendRedirect(
+                    request.getContextPath()
+                    + "/patient/patient_dashboard.jsp?page=appointment");
 
         } else {
-            response.sendRedirect("patient/take_appointment.jsp");
+
+            response.sendRedirect(
+                    request.getContextPath()
+                    + "/patient/patient_dashboard.jsp?page=appointment");
         }
     }
 }

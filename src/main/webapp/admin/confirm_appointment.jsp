@@ -1,39 +1,85 @@
-
 <%
-    int appointmentId = Integer.parseInt(request.getParameter("id"));
+int appointmentId =
+Integer.parseInt(
+request.getParameter("id"));
 %>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Confirm Appointment</title>
-</head>
-<body>
+<div class="content-card">
 
-	<h1>Confirm Appointment</h1>
-	<hr>
+<h2 class="page-title">
 
-	<form
-		action="<%= request.getContextPath() %>/UpdateAppointmentStatusServlet"
-		method="post">
+    <i class="fas fa-calendar-check"></i>
 
-		<input type="hidden" name="appointmentId" value="<%= appointmentId %>">
-		<input type="hidden" name="status" value="Confirmed"> <label>Appointment
-			Date:</label><br> <input type="date" name="appointmentDate" required>
-		<br>
-		<br> <label>Appointment Time:</label><br> <input type="time"
-			name="appointmentTime" required> <br>
-		<br>
+    Confirm Appointment
 
-		<button type="submit">Confirm Appointment</button>
+</h2>
 
-	</form>
+<p class="auth-subtitle">
 
-	<br>
-	<br>
+    Schedule and confirm the patient's appointment.
 
-	<a href="view_appointments.jsp">Back</a>
+</p>
 
-</body>
-</html>
+<div class="form-card">
+
+    <form action="<%= request.getContextPath() %>/UpdateAppointmentStatusServlet"
+          method="post">
+
+        <input type="hidden"
+               name="appointmentId"
+               value="<%= appointmentId %>">
+
+        <input type="hidden"
+               name="status"
+               value="Confirmed">
+
+        <div class="input-group">
+
+            <label>
+                Appointment Date
+            </label>
+
+            <input type="date"
+                   name="appointmentDate"
+                   required>
+
+        </div>
+
+        <br>
+
+        <div class="input-group">
+
+            <label>
+                Appointment Time
+            </label>
+
+            <input type="time"
+                   name="appointmentTime"
+                   required>
+
+        </div>
+
+        <br>
+
+        <button type="submit"
+                class="card-btn">
+
+            Confirm Appointment
+
+        </button>
+
+    </form>
+
+    <br>
+
+    <a href="view_appointments.jsp"
+       class="card-btn">
+
+        Back
+
+    </a>
+
+</div>
+
+
+</div>

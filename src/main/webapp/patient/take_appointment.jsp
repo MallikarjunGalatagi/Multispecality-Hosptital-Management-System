@@ -3,51 +3,90 @@
 <%@ page import="com.hospital_management.model.Doctor" %>
 
 <%
-    DoctorDAO doctorDAO = new DoctorDAO();
-    List<Doctor> doctorList = doctorDAO.getAllDoctors();
+DoctorDAO doctorDAO = new DoctorDAO();
+List<Doctor> doctorList = doctorDAO.getAllDoctors();
+
+String appointmentSuccess =
+(String) session.getAttribute(
+        "appointmentSuccess");
 %>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Take Appointment</title>
-</head>
-<body>
+<div class="appointment-page">
 
-    <h1>Book Appointment</h1>
-    <hr>
+    <h2>
+        <i class="fas fa-calendar-plus"></i>
+        Book Appointment
+    </h2>
 
-    <form action="../BookAppointmentServlet" method="post">
+    <p class="auth-subtitle">
+        Schedule an appointment with your preferred doctor
+    </p>
+    
+    <%
+if(appointmentSuccess != null){
+%>
 
-        <label>Select Doctor:</label><br>
-        <select name="doctorId" required>
-            <option value="">--Select Doctor--</option>
+<div class="success-message">
 
-            <%
-                for (Doctor doctor : doctorList) {
-            %>
-                <option value="<%= doctor.getDoctorId() %>">
-                    <%= doctor.getFullName() %> - <%= doctor.getDepartmentName() %>
+    <%= appointmentSuccess %>
+
+</div>
+
+<%
+session.removeAttribute(
+        "appointmentSuccess");
+}
+%>
+
+
+   
+
+    <form action="../BookAppointmentServlet"
+          method="post">
+
+        <div class="input-group">
+
+            <select name="doctorId" required>
+
+                <option value="">
+                    -- Select Doctor --
                 </option>
-            <%
+
+                <%
+                for(Doctor doctor : doctorList){
+                %>
+
+                <option value="<%= doctor.getDoctorId() %>">
+
+                    <%= doctor.getFullName() %>
+                    -
+                    <%= doctor.getDepartmentName() %>
+
+                </option>
+
+                <%
                 }
-            %>
+                %>
 
-        </select>
-        <br><br>
+            </select>
 
-        <label>Preferred Appointment Date:</label><br>
-        <input type="date" name="appointmentDate" required>
-        <br><br>
+        </div>
 
-        <button type="submit">Book Appointment</button>
+        <div class="input-group">
+
+            <input type="date"
+                   name="appointmentDate"
+                   required>
+
+        </div>
+
+        <button type="submit"
+                class="auth-btn">
+
+            Book Appointment
+
+        </button>
 
     </form>
 
-    <br>
-
-    <a href="patient_dashboard.jsp">Back to Dashboard</a>
-
-</body>
-</html>
+</div>

@@ -2,94 +2,209 @@
 <%@ page import="jakarta.servlet.http.HttpSession"%>
 
 <%
-    // Check Admin Session
-    HttpSession currentSession = request.getSession(false);
+HttpSession currentSession = request.getSession(false);
 
-    if (currentSession == null
-            || currentSession.getAttribute("loggedInAdmin") == null) {
+if(currentSession == null ||
+currentSession.getAttribute("loggedInAdmin") == null){
 
-        response.sendRedirect(
-                request.getContextPath()
-                + "/admin/admin_login.jsp");
-        return;
-    }
 
-    Admin admin =
-            (Admin) currentSession.getAttribute(
-                    "loggedInAdmin");
+response.sendRedirect(
+    request.getContextPath()
+    + "/admin/admin_login.jsp");
+return;
+
+
+}
+
+Admin admin =
+(Admin) currentSession.getAttribute("loggedInAdmin");
+
+String selectedPage =
+request.getParameter("page");
+
+if(selectedPage == null){
+selectedPage = "dashboard";
+}
 %>
 
 <!DOCTYPE html>
+
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Admin Dashboard</title>
+
+<link rel="stylesheet" href="../css/navbar.css">
+<link rel="stylesheet" href="../css/footer.css">
+<link rel="stylesheet" href="../css/common.css">
+<link rel="stylesheet" href="../css/auth.css">
+<link rel="stylesheet" href="../css/admin.css">
+<link rel="stylesheet" href="../css/style.css">
+
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
 </head>
+
 <body>
 
-    <h1>👑 Admin Dashboard</h1>
-    <hr>
+<div class="page-wrapper">
 
-    <h3>
-        Welcome,
-        <%= admin.getFullName() %>
-    </h3>
 
-    <p>You have successfully logged in.</p>
+<%@ include file="../common/navbar.jsp"%>
 
-    <hr>
+<div class="dashboard-layout">
 
-    <h4>🏢 Department Management</h4>
+    <%@ include file="admin_sidebar.jsp"%>
 
-    <a href="<%= request.getContextPath() %>/dept/add_dept.jsp">
-        ➕ Add Department
-    </a>
+    <div class="content-area">
 
-    <br><br>
+    <%
+    if("departments".equals(selectedPage)){
+    %>
 
-    <a href="<%= request.getContextPath() %>/dept/view_dept.jsp">
-        📋 View Departments
-    </a>
+        <jsp:include page="../dept/view_dept.jsp"/>
 
-    <br><br>
+    <%
+    }
+    else if("doctors".equals(selectedPage)){
+    %>
 
-    <hr>
+        <jsp:include page="../doctor/view_doctor.jsp"/>
 
-    <h4>👨‍⚕️ Doctor Management</h4>
+    <%
+    }
+    else if("receptionists".equals(selectedPage)){
+    %>
 
-    <a href="<%= request.getContextPath() %>/doctor/add_doctor.jsp">
-        ➕ Add Doctor
-    </a>
+        <jsp:include page="../receptionist/view_receptionist.jsp"/>
 
-    <br><br>
+    <%
+    }
+    else if("notifications".equals(selectedPage)){
+    %>
 
-    <a href="<%= request.getContextPath() %>/doctor/view_doctor.jsp">
-        📋 View Doctors
-    </a>
+        <jsp:include page="notifications.jsp"/>
 
-    <br><br>
+    <%
+    }
+    else{
+    %>
 
-    <hr>
+        <h1 class="page-title">
+            Welcome, <%= admin.getFullName() %>
+        </h1>
 
-    <h4>👩‍💼 Receptionist Management</h4>
+        <p class="welcome-text">
+            Manage doctors, departments,
+            receptionists and hospital operations.
+        </p>
 
-    <a href="<%= request.getContextPath() %>/receptionist/add_receptionist.jsp">
-        ➕ Add Receptionist
-    </a>
+        <div class="stats-container">
 
-    <br><br>
+            <div class="stats-card">
 
-    <a href="<%= request.getContextPath() %>/receptionist/view_receptionist.jsp">
-        📋 View Receptionists
-    </a>
+                <i class="fas fa-building"></i>
 
-    <br><br>
+                <h3>Departments</h3>
 
-    <hr>
+                <p>
+                    Manage hospital departments.
+                </p>
 
-    <a href="<%= request.getContextPath() %>/AdminLogoutServlet">
-        🚪 Logout
-    </a>
+            </div>
+
+            <div class="stats-card">
+
+                <i class="fas fa-user-doctor"></i>
+
+                <h3>Doctors</h3>
+
+                <p>
+                    Add and manage doctors.
+                </p>
+
+            </div>
+
+            <div class="stats-card">
+
+                <i class="fas fa-user-tie"></i>
+
+                <h3>Receptionists</h3>
+
+                <p>
+                    Manage receptionist accounts.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="content-card">
+
+            <h2>Quick Actions</h2>
+
+            <div class="profile-details">
+
+                <a href="<%= request.getContextPath() %>/dept/add_dept.jsp"
+                   class="card-btn">
+
+                    Add Department
+
+                </a>
+
+                <a href="<%= request.getContextPath() %>/doctor/add_doctor.jsp"
+                   class="card-btn">
+
+                    Add Doctor
+
+                </a>
+
+                <a href="<%= request.getContextPath() %>/receptionist/add_receptionist.jsp"
+                   class="card-btn">
+
+                    Add Receptionist
+
+                </a>
+
+                <a href="dashboard.jsp?page=departments"
+                   class="card-btn">
+
+                    View Departments
+
+                </a>
+
+                <a href="dashboard.jsp?page=doctors"
+                   class="card-btn">
+
+                    View Doctors
+
+                </a>
+
+                <a href="dashboard.jsp?page=receptionists"
+                   class="card-btn">
+
+                    View Receptionists
+
+                </a>
+
+            </div>
+
+        </div>
+
+    <%
+    }
+    %>
+
+    </div>
+
+</div>
+
+<%@ include file="../common/footer.jsp"%>
+
+
+</div>
 
 </body>
 </html>

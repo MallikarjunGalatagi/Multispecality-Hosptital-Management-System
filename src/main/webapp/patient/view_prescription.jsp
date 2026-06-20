@@ -1,68 +1,106 @@
+
 <%@ page import="java.util.List"%>
 <%@ page import="com.hospital_management.model.Patient"%>
 <%@ page import="com.hospital_management.model.Prescription"%>
 <%@ page import="com.hospital_management.dao.PrescriptionDAO"%>
 
 <%
-    Patient patient = (Patient) session.getAttribute("loggedInPatient");
+Patient patient =
+        (Patient) session.getAttribute("loggedInPatient");
 
-    if (patient == null) {
-        response.sendRedirect("patient_login.jsp");
-        return;
-    }
+if(patient == null){
+    response.sendRedirect("patient_login.jsp");
+    return;
+}
 
-    PrescriptionDAO prescriptionDAO = new PrescriptionDAO();
-    List<Prescription> prescriptionList =
-            prescriptionDAO.getPrescriptionsByPatientId(patient.getPatientId());
+PrescriptionDAO prescriptionDAO =
+        new PrescriptionDAO();
+
+List<Prescription> prescriptionList =
+        prescriptionDAO.getPrescriptionsByPatientId(
+                patient.getPatientId());
 %>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>My Prescriptions</title>
-</head>
-<body>
+<div class="prescription-page">
 
-	<h1>My Prescriptions</h1>
-	<hr>
+	<h2>
+		<i class="fas fa-file-medical"></i> My Prescriptions
+	</h2>
 
-	<table border="1" cellpadding="10" cellspacing="0">
-		<tr>
-			<th>Prescription ID</th>
-			<th>Doctor Name</th>
-			<th>Diagnosis</th>
-			<th>Medicines</th>
-			<th>Dosage Instructions</th>
-			<th>Remarks</th>
-			<th>Action</th>
-		</tr>
+	<p class="auth-subtitle">
+        View and download your prescriptions
+    </p>
 
-		<%
-            for (Prescription prescription : prescriptionList) {
-        %>
-		<tr>
-			<td><%= prescription.getPrescriptionId() %></td>
-			<td><%= prescription.getDoctorName() %></td>
-			<td><%= prescription.getDiagnosis() %></td>
-			<td><%= prescription.getMedicines() %></td>
-			<td><%= prescription.getDosageInstructions() %></td>
-			<td><%= prescription.getRemarks() %></td>
+   <table class="appointment-table prescription-table">
 
-			<td><a
-				href="<%= request.getContextPath() %>/DownloadPrescriptionServlet?id=<%= prescription.getPrescriptionId() %>">
-					📄 Download PDF </a></td>
-		</tr>
-		<%
-            }
-        %>
+            <thead>
 
-	</table>
+                <tr>
+                    <th>ID</th>
+                    <th>Doctor</th>
+                    <th>Diagnosis</th>
+                    <th>Medicines</th>
+                    <th>Dosage</th>
+                    <th>Remarks</th>
+                    <th>Download</th>
+                </tr>
 
-	<br>
-	<br>
+            </thead>
 
-	<a href="patient_dashboard.jsp">Back to Dashboard</a>
+            <tbody>
 
-</body>
-</html>
+                <%
+                for(Prescription prescription : prescriptionList){
+                %>
+
+                <tr>
+
+                    <td>
+                        <%= prescription.getPrescriptionId() %>
+                    </td>
+
+                    <td>
+                        <%= prescription.getDoctorName() %>
+                    </td>
+
+                    <td>
+                        <%= prescription.getDiagnosis() %>
+                    </td>
+
+                    <td>
+                        <%= prescription.getMedicines() %>
+                    </td>
+
+                    <td>
+                        <%= prescription.getDosageInstructions() %>
+                    </td>
+
+                    <td>
+                        <%= prescription.getRemarks() %>
+                    </td>
+
+                    <td>
+
+                        <a class="download-btn"
+                           href="<%= request.getContextPath() %>/DownloadPrescriptionServlet?id=<%= prescription.getPrescriptionId() %>">
+
+                            Download PDF
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                <%
+                }
+                %>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+

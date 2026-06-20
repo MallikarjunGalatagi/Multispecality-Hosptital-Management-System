@@ -1,67 +1,92 @@
 <%@ page import="com.hospital_management.model.Receptionist"%>
 
 <%
-    Receptionist receptionist =
-        (Receptionist) session.getAttribute("loggedInReceptionist");
+Receptionist receptionist =
+(Receptionist) session.getAttribute("loggedInReceptionist");
 
-    if (receptionist == null) {
-        response.sendRedirect("receptionist_login.jsp");
-        return;
-    }
+if(receptionist == null){
+response.sendRedirect("receptionist_login.jsp");
+return;
+}
 %>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>My Profile</title>
-</head>
-<body>
+<div class="auth-card profile-card">
 
-    <h1>👩‍💼 Receptionist Profile</h1>
-    <hr>
+<div class="auth-icon">
 
-    <table border="1" cellpadding="10" cellspacing="0">
-        <tr>
-            <th>Receptionist ID</th>
-            <td><%= receptionist.getReceptionistId() %></td>
-        </tr>
+    <img src="../images/receptionist.png"
+         alt="Receptionist Profile">
 
-        <tr>
-            <th>Full Name</th>
-            <td><%= receptionist.getFullName() %></td>
-        </tr>
+</div>
 
-        <tr>
-            <th>Username</th>
-            <td><%= receptionist.getUsername() %></td>
-        </tr>
+<h2>My Profile</h2>
 
-        <tr>
-            <th>Email</th>
-            <td><%= receptionist.getEmail() %></td>
-        </tr>
+<p class="auth-subtitle">
+    View your receptionist account information
+</p>
 
-        <tr>
-            <th>Mobile</th>
-            <td><%= receptionist.getMobile() %></td>
-        </tr>
+<div class="profile-details">
 
-        <tr>
-            <th>Account Created</th>
-            <td><%= receptionist.getCreatedAt() %></td>
-        </tr>
-    </table>
+    <div class="input-group">
 
-    <br><br>
+        <label>Receptionist ID</label>
 
-    <a href="dashboard.jsp">⬅ Back to Dashboard</a>
+        <input type="text"
+               value="<%= receptionist.getReceptionistId() %>"
+               readonly>
 
-    <br><br>
+    </div>
 
-    <a href="<%= request.getContextPath() %>/ReceptionistLogoutServlet">
-        🚪 Logout
-    </a>
+    <div class="input-group">
 
-</body>
-</html>
+        <label>Full Name</label>
+
+        <input type="text"
+               value="<%= receptionist.getFullName() %>"
+               readonly>
+
+    </div>
+
+    <div class="input-group">
+
+        <label>Username</label>
+
+        <input type="text"
+               value="<%= receptionist.getUsername() %>"
+               readonly>
+
+    </div>
+
+    <div class="input-group">
+
+        <label>Email</label>
+
+        <input type="email"
+               value="<%= receptionist.getEmail() %>"
+               readonly>
+
+    </div>
+
+    <div class="input-group">
+
+        <label>Mobile</label>
+
+        <input type="text"
+               value="<%= receptionist.getMobile() %>"
+               readonly>
+
+    </div>
+
+    <div class="input-group">
+
+        <label>Account Created</label>
+
+        <input type="text"
+               value="<%= receptionist.getCreatedAt() %>"
+               readonly>
+
+    </div>
+
+</div>
+
+</div>

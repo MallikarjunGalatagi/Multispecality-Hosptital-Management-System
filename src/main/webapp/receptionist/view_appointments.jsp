@@ -4,80 +4,150 @@
 <%@ page import="com.hospital_management.dao.AppointmentDAO"%>
 
 <%
-    Receptionist receptionist =
+Receptionist receptionist =
         (Receptionist) session.getAttribute("loggedInReceptionist");
 
-    if (receptionist == null) {
-        response.sendRedirect("receptionist_login.jsp");
-        return;
-    }
+if(receptionist == null){
+    response.sendRedirect("receptionist_login.jsp");
+    return;
+}
 
-    AppointmentDAO appointmentDAO = new AppointmentDAO();
-    List<Appointment> appointmentList =
-            appointmentDAO.getAllAppointments();
+AppointmentDAO appointmentDAO =
+        new AppointmentDAO();
+
+List<Appointment> appointmentList =
+        appointmentDAO.getAllAppointments();
 %>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>View Appointment Requests</title>
-</head>
-<body>
+<div class="content-card">
 
-    <h1>📋 View Appointment Requests</h1>
-    <hr>
+    <h2 class="page-title">
+        <i class="fas fa-calendar-check"></i>
+        Appointment Requests
+    </h2>
 
-    <h3>
-        Welcome,
-        <%= receptionist.getFullName() %>
-    </h3>
+    <p class="auth-subtitle">
+        Manage patient appointment requests and schedules.
+    </p>
 
-    <br>
+    <div class="table-container">
 
-    <a href="dashboard.jsp">⬅ Back to Dashboard</a>
+        <table class="appointment-table">
 
-    <br><br>
+            <thead>
 
-    <table border="1" cellpadding="10" cellspacing="0">
-        <tr>
-            <th>Appointment ID</th>
-            <th>Patient Name</th>
-            <th>Doctor Name</th>
-            <th>Appointment Date</th>
-            <th>Appointment Time</th>
-            <th>Status</th>
-            <th>Action</th>
-        </tr>
+                <tr>
+                    <th>ID</th>
+                    <th>Patient</th>
+                    <th>Doctor</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
 
-        <%
-            for (Appointment appointment : appointmentList) {
-        %>
+            </thead>
 
-        <tr>
-            <td><%= appointment.getAppointmentId() %></td>
-            <td><%= appointment.getPatientName() %></td>
-            <td><%= appointment.getDoctorName() %></td>
-            <td><%= appointment.getAppointmentDate() == null ? "-" : appointment.getAppointmentDate() %></td>
-            <td><%= appointment.getAppointmentTime() == null ? "-" : appointment.getAppointmentTime() %></td>
-            <td><%= appointment.getStatus() %></td>
+            <tbody>
 
-            <td>
-                <a href="confirm_appointment.jsp?id=<%= appointment.getAppointmentId() %>">
-                    Manage
-                </a>
-            </td>
-        </tr>
+            <%
+            if(appointmentList.isEmpty()){
+            %>
 
-        <%
+                <tr>
+
+                    <td colspan="7"
+                        style="text-align:center;padding:25px;">
+
+                        No Appointment Requests Found
+
+                    </td>
+
+                </tr>
+
+            <%
             }
-        %>
+            else{
 
-    </table>
+                for(Appointment appointment
+                        : appointmentList){
+            %>
 
-    <br><br>
+                <tr>
 
-    <a href="dashboard.jsp">⬅ Back to Dashboard</a>
+                    <td>
+                        <%= appointment.getAppointmentId() %>
+                    </td>
 
-</body>
-</html>
+                    <td>
+                        <%= appointment.getPatientName() %>
+                    </td>
+
+                    <td>
+                        <%= appointment.getDoctorName() %>
+                    </td>
+
+                    <td>
+                        <%= appointment.getAppointmentDate() == null
+                        ? "-"
+                        : appointment.getAppointmentDate() %>
+                    </td>
+
+                    <td>
+                        <%= appointment.getAppointmentTime() == null
+                        ? "-"
+                        : appointment.getAppointmentTime() %>
+                    </td>
+
+                    <td>
+
+                        <%
+                        String status =
+                                appointment.getStatus();
+
+                        String statusClass =
+                                "status-pending";
+
+                        if("APPROVED".equalsIgnoreCase(status)){
+                            statusClass =
+                                    "status-approved";
+                        }
+                        else if("REJECTED".equalsIgnoreCase(status)){
+                            statusClass =
+                                    "status-cancelled";
+                        }
+                        %>
+
+                        <span class="status-badge <%= statusClass %>">
+
+                            <%= status %>
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        <a href="confirm_appointment.jsp?id=<%= appointment.getAppointmentId() %>"
+                           class="card-btn">
+
+                            Manage
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+            <%
+                }
+            }
+            %>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

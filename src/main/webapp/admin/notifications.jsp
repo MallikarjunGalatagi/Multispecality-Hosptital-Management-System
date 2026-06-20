@@ -5,73 +5,97 @@
 <%@ page import="jakarta.servlet.http.HttpSession"%>
 
 <%
-    HttpSession currentSession = request.getSession(false);
+HttpSession currentSession = request.getSession(false);
 
-    if (currentSession == null ||
-        currentSession.getAttribute("loggedInAdmin") == null) {
+if(currentSession == null ||
+currentSession.getAttribute("loggedInAdmin") == null){
 
-        response.sendRedirect(request.getContextPath() + "/admin/admin_login.jsp");
-        return;
-    }
+response.sendRedirect(
+    request.getContextPath()
+    + "/admin/admin_login.jsp");
+return;
 
-    Admin admin = (Admin) currentSession.getAttribute("loggedInAdmin");
+}
 
-    NotificationDAO notificationDAO = new NotificationDAO();
-    List<Notification> notificationList =
-            notificationDAO.getNotifications("ADMIN", 1);
+Admin admin =
+(Admin) currentSession.getAttribute(
+"loggedInAdmin");
+
+NotificationDAO notificationDAO =
+new NotificationDAO();
+
+List<Notification> notificationList =
+notificationDAO.getNotifications(
+"ADMIN",
+1);
 %>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Admin Notifications</title>
-</head>
-<body>
+<div class="content-card">
 
-    <h1>🔔 Admin Notifications</h1>
-    <hr>
+```
+<h2 class="page-title">
 
-    <h3>
-        Welcome,
-        <%= admin.getFullName() %>
-    </h3>
+    <i class="fas fa-bell"></i>
 
-    <br>
+    Notifications
 
-    <a href="dashboard.jsp">⬅ Back to Dashboard</a>
+</h2>
 
-    <br><br>
+<p class="auth-subtitle">
 
-    <%
-        if (notificationList.isEmpty()) {
-    %>
+    Stay updated with hospital notifications.
 
-        <p>No notifications available.</p>
+</p>
 
-    <%
-        } else {
-            for (Notification notification : notificationList) {
-    %>
+<%
+if(notificationList.isEmpty()){
+%>
 
-        <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
-            <b><%= notification.getTitle() %></b>
-            <br><br>
+    <div class="notification-card">
+
+        <h4>No Notifications</h4>
+
+        <p>
+            You currently have no notifications.
+        </p>
+
+    </div>
+
+<%
+}
+else{
+
+    for(Notification notification
+            : notificationList){
+%>
+
+    <div class="notification-card">
+
+        <h4>
+
+            <%= notification.getTitle() %>
+
+        </h4>
+
+        <p>
+
             <%= notification.getMessage() %>
-            <br><br>
-            <small><%= notification.getCreatedAt() %></small>
-        </div>
 
-    <%
-            }
-        }
-    %>
+        </p>
 
-    <hr>
+        <small>
 
-    <a href="<%= request.getContextPath() %>/AdminLogoutServlet">
-        🚪 Logout
-    </a>
+            <strong>Date:</strong>
 
-</body>
-</html>
+            <%= notification.getCreatedAt() %>
+
+        </small>
+
+    </div>
+
+<%
+    }
+}
+%>
+
+</div>

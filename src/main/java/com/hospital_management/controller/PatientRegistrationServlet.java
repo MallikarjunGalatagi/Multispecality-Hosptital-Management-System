@@ -1,3 +1,4 @@
+
 package com.hospital_management.controller;
 
 import java.io.IOException;
@@ -20,7 +21,8 @@ public class PatientRegistrationServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request,
+                          HttpServletResponse response)
             throws ServletException, IOException {
 
         String fullName = request.getParameter("fullName");
@@ -29,8 +31,20 @@ public class PatientRegistrationServlet extends HttpServlet {
         String mobile = request.getParameter("mobile");
         String gender = request.getParameter("gender");
         String password = request.getParameter("password");
+        String confirmPassword =
+                request.getParameter("confirmPassword");
+
+        if (!password.equals(confirmPassword)) {
+
+            response.sendRedirect(
+                "patient/patient_register.jsp?error=password"
+            );
+
+            return;
+        }
 
         Patient patient = new Patient();
+
         patient.setFullName(fullName);
         patient.setUsername(username);
         patient.setEmail(email);
@@ -39,12 +53,22 @@ public class PatientRegistrationServlet extends HttpServlet {
         patient.setPassword(password);
 
         PatientDAO patientDAO = new PatientDAO();
-        boolean status = patientDAO.registerPatient(patient);
+
+        boolean status =
+                patientDAO.registerPatient(patient);
 
         if (status) {
-            response.sendRedirect("patient/patient_login.jsp");
+
+            response.sendRedirect(
+                "patient/patient_login.jsp?success=registered"
+            );
+
         } else {
-            response.sendRedirect("patient/patient_register.jsp");
+
+            response.sendRedirect(
+                "patient/patient_register.jsp?error=failed"
+            );
         }
     }
 }
+

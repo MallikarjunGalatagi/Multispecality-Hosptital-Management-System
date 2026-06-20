@@ -27,6 +27,6 @@ public class PatientLogoutServlet extends HttpServlet {
             session.invalidate();
         }
 
-        response.sendRedirect(request.getContextPath() + "/index.html");
+        response.sendRedirect(request.getContextPath() + "/index.jsp");
     }
 }

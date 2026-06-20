@@ -1,71 +1,50 @@
+
 <%@ page import="java.util.List"%>
 <%@ page import="com.hospital_management.model.Doctor"%>
 <%@ page import="com.hospital_management.model.Notification"%>
 <%@ page import="com.hospital_management.dao.NotificationDAO"%>
 
 <%
-    // Check Doctor Session
-    Doctor doctor =
-            (Doctor) session.getAttribute(
-                    "loggedInDoctor");
+Doctor doctor =
+        (Doctor) session.getAttribute("loggedInDoctor");
 
-    if (doctor == null) {
-        response.sendRedirect(
-                "doctor_login.jsp");
-        return;
-    }
+NotificationDAO notificationDAO =
+        new NotificationDAO();
 
-    // Load Doctor Notifications
-    NotificationDAO notificationDAO =
-            new NotificationDAO();
-
-    List<Notification> notificationList =
-            notificationDAO.getNotifications(
-                    "DOCTOR",
-                    doctor.getDoctorId());
+List<Notification> notificationList =
+        notificationDAO.getNotifications(
+                "DOCTOR",
+                doctor.getDoctorId());
 %>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Doctor Notifications</title>
-</head>
-<body>
+<div class="notifications-page">
 
-    <h1>🔔 Doctor Notifications</h1>
-    <hr>
-
-    <h3>
-        Welcome, Dr.
-        <%= doctor.getFullName() %>
-    </h3>
-
-    <br>
-
-    <a href="doctor_dashboard.jsp">
-        ⬅ Back to Dashboard
-    </a>
-
-    <br><br>
+    <h2 class="page-title">
+        <i class="fas fa-bell"></i> Notifications
+    </h2>
 
     <%
-        if (notificationList.isEmpty()) {
+    if (notificationList.isEmpty()) {
     %>
 
-        <h4>No notifications available.</h4>
+        <div class="notification-card">
+
+            <h4>No Notifications</h4>
+
+            <p>
+                You currently have no notifications.
+            </p>
+
+        </div>
 
     <%
-        } else {
+    }
+    else {
 
-            for (Notification notification
-                    : notificationList) {
+        for (Notification notification : notificationList) {
     %>
 
-        <div style="
-            border:1px solid #cccccc;
-            padding:10px;
-            margin-bottom:10px;">
+        <div class="notification-card">
 
             <h4>
                 <%= notification.getTitle() %>
@@ -76,28 +55,16 @@
             </p>
 
             <small>
-                <b>Date:</b>
+                <strong>Date:</strong>
                 <%= notification.getCreatedAt() %>
             </small>
 
         </div>
 
     <%
-            }
         }
+    }
     %>
 
-    <hr>
+</div>
 
-    <a href="doctor_dashboard.jsp">
-        ⬅ Back to Dashboard
-    </a>
-
-  
-
-    <a href="<%= request.getContextPath() %>/DoctorLogoutServlet">
-        🚪 Logout
-    </a>
-
-</body>
-</html>

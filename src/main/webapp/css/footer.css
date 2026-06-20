@@ -1,0 +1,131 @@
+/* ========================= */
+/* FOOTER */
+/* ========================= */
+
+.footer{
+    margin-top:70px;
+    background:linear-gradient(135deg,#223a5e,#2f4b73);
+    color:white;
+    padding:45px 50px 20px;
+    border-radius:20px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.12);
+}
+
+/* ========================= */
+/* FOOTER CONTAINER */
+/* ========================= */
+
+.footer-container{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-sstart;
+    width:100%;
+}
+
+/* ========================= */
+/* ABOUT US */
+/* ========================= */
+
+.footer-about{
+    flex:1;
+    max-width:60%;
+}
+
+.footer-about h3{
+    font-size:24px;
+    font-weight:600;
+    margin-bottom:25px;
+}
+
+.footer-about p{
+    font-size:18px;
+    line-height:2;
+    color:#e2e8f0;
+    text-align:justify;
+}
+
+/* ========================= */
+/* CONTACT US */
+/* ========================= */
+
+.footer-contact{
+    flex:0 0 auto;
+    margin-left:auto;
+    text-align:left;
+}
+
+.footer-contact h3{
+    font-size:24px;
+    font-weight:600;
+    margin-bottom:25px;
+}
+
+.contact-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:5px;
+}
+
+.contact-item i{
+	
+    width:22px;
+    color:white;
+    font-size:18px;
+    text-align:center;
+}
+
+.contact-item span{
+    color:#e2e8f0;
+    font-size:18px;
+    line-height:1.5;
+}
+
+/* ========================= */
+/* FOOTER BOTTOM */
+/* ========================= */
+
+.footer-bottom{
+    text-align:center;
+    margin-top:35px;
+    padding-top:20px;
+    border-top:1px solid rgba(255,255,255,0.2);
+    color:#cbd5e1;
+    font-size:16px;
+}
+
+/* ========================= */
+/* RESPONSIVE */
+/* ========================= */
+
+@media(max-width:768px){
+
+    .footer{
+        padding:35px 25px 20px;
+    }
+
+    .footer-container{
+        flex-direction:column;
+        gap:40px;
+    }
+
+    .footer-about,
+    .footer-contact{
+        max-width:100%;
+        width:100%;
+        text-align:center;
+    }
+
+    .footer-about h3,
+    .footer-contact h3{
+        text-align:center;
+    }
+
+    .footer-about p{
+        text-align:center;
+    }
+
+    .contact-item{
+        justify-content:center;
+    }
+}

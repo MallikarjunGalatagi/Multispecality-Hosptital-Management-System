@@ -1,54 +1,234 @@
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Patient Registration</title>
+<meta charset="UTF-8">
+<title>Patient Registration</title>
+
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/navbar.css">
+
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/footer.css">
+
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/auth.css">
+
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/style.css">
+	
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
+
 <body>
 
-    <h1>Patient Registration</h1>
-    <hr>
+<%@ include file="../common/navbar.jsp"%>
 
-    <form action="../PatientRegistrationServlet" method="post" autocomplete="off">
+<div class="auth-container">
 
-        <label>Full Name:</label><br>
-        <input type="text" name="fullName" required>
-        <br><br>
+    <div class="auth-card">
 
-        <label>Username:</label><br>
-        <input type="text" name="username" autocomplete="off" required>
-        <br><br>
+        <div class="auth-icon">
+            <img src="../images/patient.png" alt="Patient">
+        </div>
 
-        <label>Email:</label><br>
-        <input type="email" name="email" autocomplete="off" required>
-        <br><br>
+        <h2>Patient Registration</h2>
 
-        <label>Mobile:</label><br>
-        <input type="text" name="mobile" required>
-        <br><br>
+        <p class="auth-subtitle">
+            Create your account to access hospital services.
+        </p>
 
-        <label>Gender:</label><br>
-        <select name="gender" required>
-            <option value="">--Select Gender--</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Other">Other</option>
-        </select>
-        <br><br>
+        <%
+        String error = request.getParameter("error");
+        %>
 
-        <label>Password:</label><br>
-        <input type="password" name="password" autocomplete="new-password" required>
-        <br><br>
+        <% if("password".equals(error)){ %>
 
-        <button type="submit">Register</button>
+        <div class="error-message">
+            Password and Confirm Password do not match.
+        </div>
 
-    </form>
+        <% } %>
 
-    <br>
+        <% if("failed".equals(error)){ %>
 
-    <a href="../index.html">Back to Home</a>
+        <div class="error-message">
+            Registration Failed. Please Try Again.
+        </div>
+
+        <% } %>
+
+        <form action="../PatientRegistrationServlet"
+              method="post"
+              autocomplete="off">
+
+            <div class="input-group">
+
+                <input type="text"
+                       name="fullName"
+                       placeholder="Full Name"
+                       required>
+
+            </div>
+
+            <div class="input-group">
+
+                <input type="text"
+                       name="username"
+                       placeholder="Username"
+                       autocomplete="off"
+                       required>
+
+            </div>
+
+            <div class="input-group">
+
+                <input type="email"
+                       name="email"
+                       placeholder="Email Address"
+                       autocomplete="off"
+                       required>
+
+            </div>
+
+            <div class="input-group">
+
+                <input type="text"
+                       name="mobile"
+                       placeholder="Mobile Number"
+                       required>
+
+            </div>
+
+            <div class="input-group">
+
+                <select name="gender" required>
+
+                    <option value="">
+                        Select Gender
+                    </option>
+
+                    <option value="Male">
+                        Male
+                    </option>
+
+                    <option value="Female">
+                        Female
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="input-group">
+
+                <div class="password-box">
+
+                    <input type="password"
+                           id="password"
+                           name="password"
+                           placeholder="Password"
+                           autocomplete="new-password"
+                           required>
+
+                    <i class="fa-solid fa-eye"
+                       id="togglePassword"></i>
+
+                </div>
+
+            </div>
+
+            <div class="input-group">
+
+                <div class="password-box">
+
+                    <input type="password"
+                           id="confirmPassword"
+                           name="confirmPassword"
+                           placeholder="Confirm Password"
+                           autocomplete="new-password"
+                           required>
+
+                    <i class="fa-solid fa-eye"
+                       id="toggleConfirmPassword"></i>
+
+                </div>
+
+            </div>
+
+            <button type="submit" class="auth-btn">
+                Register
+            </button>
+
+        </form>
+
+        <div class="auth-links">
+
+            <a href="patient_login.jsp">
+                Already have an account? Login
+            </a>
+
+            <a href="../index.jsp">
+                Back to Home
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+<%@ include file="../common/footer.jsp"%>
+
+<script>
+
+const togglePassword =
+document.getElementById("togglePassword");
+
+const password =
+document.getElementById("password");
+
+togglePassword.addEventListener("click", function(){
+
+    const type =
+        password.getAttribute("type") === "password"
+        ? "text"
+        : "password";
+
+    password.setAttribute("type", type);
+
+    this.classList.toggle("fa-eye");
+    this.classList.toggle("fa-eye-slash");
+});
+
+const toggleConfirmPassword =
+document.getElementById("toggleConfirmPassword");
+
+const confirmPassword =
+document.getElementById("confirmPassword");
+
+toggleConfirmPassword.addEventListener("click", function(){
+
+    const type =
+        confirmPassword.getAttribute("type") === "password"
+        ? "text"
+        : "password";
+
+    confirmPassword.setAttribute("type", type);
+
+    this.classList.toggle("fa-eye");
+    this.classList.toggle("fa-eye-slash");
+});
+
+</script>
 
 </body>
 </html>
+

@@ -1,83 +1,128 @@
 <%@ page import="com.hospital_management.model.Doctor"%>
 
 <%
-    Doctor doctor =
-        (Doctor) session.getAttribute("loggedInDoctor");
+Doctor doctor =
+(Doctor) session.getAttribute("loggedInDoctor");
 
-    if (doctor == null) {
-        response.sendRedirect("doctor_login.jsp");
-        return;
-    }
+String success =
+request.getParameter("success");
 %>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Doctor Profile</title>
-</head>
-<body>
+<div class="auth-card profile-card">
 
-    <h1>👨‍⚕️ Doctor Profile</h1>
-    <hr>
+	<h2>
+		<i class="fas fa-user-doctor"></i> My Profile
+	</h2>
+	
+		<p class="auth-subtitle">Manage your personal information</p>
+	
 
-    <table border="1" cellpadding="10" cellspacing="0">
+	<% if("updated".equals(success)){ %>
 
-        <tr>
-            <th>Doctor ID</th>
-            <td><%= doctor.getDoctorId() %></td>
-        </tr>
+	<div class="success-message">Profile Updated Successfully!</div>
 
-        <tr>
-            <th>Full Name</th>
-            <td><%= doctor.getFullName() %></td>
-        </tr>
+	<% } %>
 
-        <tr>
-            <th>Username</th>
-            <td><%= doctor.getUsername() %></td>
-        </tr>
+	<form action="../UpdateDoctorProfileServlet" method="post">
 
-        <tr>
-            <th>Email</th>
-            <td><%= doctor.getEmail() %></td>
-        </tr>
+		<input type="hidden" name="doctorId"
+			value="<%= doctor.getDoctorId() %>">
 
-        <tr>
-            <th>Mobile</th>
-            <td><%= doctor.getMobile() %></td>
-        </tr>
+		<div class="profile-details">
 
-        <tr>
-            <th>Gender</th>
-            <td><%= doctor.getGender() %></td>
-        </tr>
+			<div class="input-group">
 
-        <tr>
-            <th>Qualification</th>
-            <td><%= doctor.getQualification() %></td>
-        </tr>
+				<label>Doctor ID</label> <input type="text"
+					value="<%= doctor.getDoctorId() %>" readonly>
 
-        <tr>
-            <th>Department ID</th>
-            <td><%= doctor.getDepartmentId() %></td>
-        </tr>
+			</div>
 
-       
+			<div class="input-group">
 
-    </table>
+				<label>Full Name</label> <input type="text" class="profile-input"
+					name="fullName" placeholder="Enter Full Name"
+					value="<%= doctor.getFullName() %>" readonly>
 
-    <br><br>
+			</div>
 
-    <a href="doctor_dashboard.jsp">
-        ⬅ Back to Dashboard
-    </a>
+			<div class="input-group">
 
-    <br><br>
+				<label>Username</label> <input type="text" class="profile-input"
+					name="username" placeholder="Enter Username"
+					value="<%= doctor.getUsername() %>" readonly>
 
-    <a href="<%= request.getContextPath() %>/DoctorLogoutServlet">
-        🚪 Logout
-    </a>
+			</div>
 
-</body>
-</html>
+			<div class="input-group">
+
+				<label>Email</label> <input type="email" class="profile-input"
+					name="email" placeholder="Enter Email"
+					value="<%= doctor.getEmail() %>" readonly>
+
+			</div>
+
+			<div class="input-group">
+
+				<label>Mobile</label> <input type="text" class="profile-input"
+					name="mobile" placeholder="Enter Mobile Number"
+					value="<%= doctor.getMobile() %>" readonly>
+
+			</div>
+
+			<div class="input-group">
+
+				<label>Gender</label> <input type="text" class="profile-input"
+					name="gender" placeholder="Enter Gender"
+					value="<%= doctor.getGender() %>" readonly>
+
+			</div>
+
+			<div class="input-group">
+
+				<label>Qualification</label> <input type="text"
+					value="<%= doctor.getQualification() %>" readonly>
+
+			</div>
+
+			<div class="input-group">
+
+				<label>Department ID</label> <input type="text"
+					value="<%= doctor.getDepartmentId() %>" readonly>
+
+			</div>
+
+		</div>
+
+		<br>
+
+		<button type="button" id="editBtn" class="card-btn">Edit
+			Profile</button>
+
+		<button type="submit" id="updateBtn" class="card-btn"
+			style="display: none;">Update Profile</button>
+
+	</form>
+
+</div>
+
+<script>
+
+document.getElementById("editBtn")
+.addEventListener("click", function(){
+
+    document
+    .querySelectorAll(".profile-input")
+    .forEach(function(input){
+
+        input.removeAttribute("readonly");
+
+    });
+
+    document
+    .getElementById("updateBtn")
+    .style.display = "inline-block";
+
+    this.style.display = "none";
+});
+
+</script>

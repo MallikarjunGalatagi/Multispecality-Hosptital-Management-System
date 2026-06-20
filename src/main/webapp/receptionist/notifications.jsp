@@ -4,84 +4,72 @@
 <%@ page import="com.hospital_management.dao.NotificationDAO"%>
 
 <%
-    Receptionist receptionist =
+Receptionist receptionist =
         (Receptionist) session.getAttribute("loggedInReceptionist");
 
-    if (receptionist == null) {
-        response.sendRedirect("receptionist_login.jsp");
-        return;
-    }
+if (receptionist == null) {
+    response.sendRedirect("receptionist_login.jsp");
+    return;
+}
 
-    NotificationDAO notificationDAO = new NotificationDAO();
+NotificationDAO notificationDAO =
+        new NotificationDAO();
 
-    List<Notification> notificationList =
-            notificationDAO.getNotifications(
-                    "RECEPTIONIST",
-                    receptionist.getReceptionistId());
+List<Notification> notificationList =
+        notificationDAO.getNotifications(
+                "RECEPTIONIST",
+                receptionist.getReceptionistId());
 %>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Receptionist Notifications</title>
-</head>
-<body>
+<div class="content-card">
 
-    <h1>🔔 Receptionist Notifications</h1>
-    <hr>
-
-    <h3>
-        Welcome,
-        <%= receptionist.getFullName() %>
-    </h3>
-
-    <br>
-
-    <a href="dashboard.jsp">⬅ Back to Dashboard</a>
-
-    <br><br>
+    <h2 class="page-title">
+        <i class="fas fa-bell"></i>
+        Notifications
+    </h2>
 
     <%
-        if (notificationList.isEmpty()) {
+    if(notificationList.isEmpty()){
     %>
 
-        <p>No notifications available.</p>
+        <div class="notification-card">
+
+            <h4>No Notifications</h4>
+
+            <p>
+                You currently have no notifications.
+            </p>
+
+        </div>
 
     <%
-        } else {
+    }
+    else{
 
-            for (Notification notification : notificationList) {
+        for(Notification notification
+                : notificationList){
     %>
 
-        <div style="border:1px solid #ccc;
-                    padding:10px;
-                    margin-bottom:10px;">
+        <div class="notification-card">
 
-            <b><%= notification.getTitle() %></b>
+            <h4>
+                <%= notification.getTitle() %>
+            </h4>
 
-            <br><br>
-
-            <%= notification.getMessage() %>
-
-            <br><br>
+            <p>
+                <%= notification.getMessage() %>
+            </p>
 
             <small>
+                <strong>Date:</strong>
                 <%= notification.getCreatedAt() %>
             </small>
 
         </div>
 
     <%
-            }
         }
+    }
     %>
 
-    <hr>
-
-    <a href="<%= request.getContextPath() %>/ReceptionistLogoutServlet">
-        🚪 Logout
-    </a>
-
-</body>
-</html>
+</div>

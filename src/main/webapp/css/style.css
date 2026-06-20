@@ -1,0 +1,255 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+html{
+    scroll-behavior:smooth;
+    scroll-padding-top:100px;
+}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#f4f7fc;
+    padding:40px 20px;
+}
+
+/* ========================= */
+/* HEADER */
+/* ========================= */
+
+.header{
+    text-align:center;
+    margin-bottom:50px;
+}
+
+.header h1{
+    font-size:42px;
+    font-weight:700;
+    color:#1e293b;
+    margin-bottom:10px;
+}
+
+.header p{
+    font-size:18px;
+    color:#64748b;
+}
+
+/* ========================= */
+/* CARD CONTAINER */
+/* ========================= */
+
+.card-container{
+    display:grid;
+    grid-template-columns:repeat(2, 300px);
+    gap:35px;
+    justify-content:center;
+}
+
+/* ========================= */
+/* COMMON CARD */
+/* ========================= */
+
+.role-card{
+    background:white;
+    border-radius:20px;
+    padding:30px 25px;
+    text-align:center;
+    border:1px solid rgba(0,0,0,0.08);
+    box-shadow:0 8px 20px rgba(0,0,0,0.08);
+    transition:all 0.35s ease;
+    cursor:pointer;
+}
+
+.role-card:hover{
+    transform:translateY(-12px);
+    box-shadow:0 20px 40px rgba(0,0,0,0.15);
+}
+
+/* ========================= */
+/* ICON CIRCLE */
+/* ========================= */
+
+.icon-circle{
+    width:110px;
+    height:110px;
+    border-radius:50%;
+    margin:auto;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    margin-bottom:25px;
+    padding:0;
+}
+
+.icon-circle img{
+    width:110px;
+    height:110px;
+    object-fit:cover;
+    border-radius:50%;
+    display:block;
+}
+
+/* ========================= */
+/* TITLE */
+/* ========================= */
+
+.role-card h3{
+    font-size:28px;
+    font-weight:700;
+    margin-bottom:18px;
+}
+
+/* ========================= */
+/* DESCRIPTION */
+/* ========================= */
+
+.role-card p{
+    font-size:15px;
+    line-height:1.8;
+    color:#374151;
+    margin-bottom:25px;
+    min-height:90px;
+}
+
+/* ========================= */
+/* BUTTON */
+/* ========================= */
+
+.card-btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    color:white;
+    font-size:18px;
+    font-weight:600;
+    cursor:pointer;
+    transition:all 0.3s ease;
+}
+
+.card-btn:hover{
+    transform:scale(1.04);
+}
+
+/* ========================= */
+/* PATIENT - BLUE */
+/* ========================= */
+
+.patient-card{
+    background:#eef4ff;
+}
+
+.patient-card .icon-circle{
+    background:linear-gradient(135deg,#1565d8,#2f80ed);
+}
+
+.patient-card h3{
+    color:#1565d8;
+}
+
+.patient-card .card-btn{
+    background:linear-gradient(135deg,#1565d8,#2f80ed);
+}
+
+.patient-card .card-btn:hover{
+    box-shadow:0 10px 25px rgba(21,101,216,0.4);
+}
+
+/* ========================= */
+/* DOCTOR - GREEN */
+/* ========================= */
+
+.doctor-card{
+    background:#eefcf4;
+}
+
+.doctor-card .icon-circle{
+    background:linear-gradient(135deg,#16a34a,#22c55e);
+}
+
+.doctor-card h3{
+    color:#16a34a;
+}
+
+.doctor-card .card-btn{
+    background:linear-gradient(135deg,#16a34a,#22c55e);
+}
+
+.doctor-card .card-btn:hover{
+    box-shadow:0 10px 25px rgba(34,197,94,0.4);
+}
+
+/* ========================= */
+/* RECEPTIONIST - ORANGE */
+/* ========================= */
+
+.reception-card{
+    background:#fff7ed;
+}
+
+.reception-card .icon-circle{
+    background:linear-gradient(135deg,#f97316,#fb923c);
+}
+
+.reception-card h3{
+    color:#f97316;
+}
+
+.reception-card .card-btn{
+    background:linear-gradient(135deg,#f97316,#fb923c);
+}
+
+.reception-card .card-btn:hover{
+    box-shadow:0 10px 25px rgba(249,115,22,0.4);
+}
+
+/* ========================= */
+/* ADMIN - PURPLE */
+/* ========================= */
+
+.admin-card{
+    background:#f5f3ff;
+}
+
+.admin-card .icon-circle{
+    background:linear-gradient(135deg,#7c3aed,#8b5cf6);
+}
+
+.admin-card h3{
+    color:#7c3aed;
+}
+
+.admin-card .card-btn{
+    background:linear-gradient(135deg,#7c3aed,#8b5cf6);
+}
+
+.admin-card .card-btn:hover{
+    box-shadow:0 10px 25px rgba(124,58,237,0.4);
+}
+
+/* ========================= */
+/* RESPONSIVE */
+/* ========================= */
+
+@media(max-width:768px){
+
+    .header h1{
+        font-size:32px;
+    }
+
+    .card-container{
+        grid-template-columns:1fr;
+        justify-items:center;
+    }
+
+    .role-card{
+        width:300px;
+    }
+    
+}
+
