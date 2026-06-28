@@ -13,27 +13,43 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/UpdateDoctorServlet")
 public class UpdateDoctorServlet extends HttpServlet {
+
     private static final long serialVersionUID = 1L;
 
-    public UpdateDoctorServlet() {
-        super();
-    }
-
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request,
+                          HttpServletResponse response)
             throws ServletException, IOException {
 
-        int doctorId = Integer.parseInt(request.getParameter("doctorId"));
-        String fullName = request.getParameter("fullName");
-        String username = request.getParameter("username");
-        String email = request.getParameter("email");
-        String mobile = request.getParameter("mobile");
-        String gender = request.getParameter("gender");
-        String qualification = request.getParameter("qualification");
-        int departmentId = Integer.parseInt(request.getParameter("departmentId"));
-        String password = request.getParameter("password");
+        int doctorId =
+                Integer.parseInt(request.getParameter("doctorId"));
+
+        String fullName =
+                request.getParameter("fullName");
+
+        String username =
+                request.getParameter("username");
+
+        String email =
+                request.getParameter("email");
+
+        String mobile =
+                request.getParameter("mobile");
+
+        String gender =
+                request.getParameter("gender");
+
+        String qualification =
+                request.getParameter("qualification");
+
+        int departmentId =
+                Integer.parseInt(request.getParameter("departmentId"));
+
+        String password =
+                request.getParameter("password");
 
         Doctor doctor = new Doctor();
+
         doctor.setDoctorId(doctorId);
         doctor.setFullName(fullName);
         doctor.setUsername(username);
@@ -45,8 +61,26 @@ public class UpdateDoctorServlet extends HttpServlet {
         doctor.setPassword(password);
 
         DoctorDAO doctorDAO = new DoctorDAO();
-        doctorDAO.updateDoctor(doctor);
 
-        response.sendRedirect(request.getContextPath() + "/admin/view_doctor.jsp");
+        boolean status =
+                doctorDAO.updateDoctor(doctor);
+
+        if(status){
+
+            response.sendRedirect(
+                request.getContextPath()
+                + "/admin/dashboard.jsp?page=doctors"
+                + "&success=Doctor Updated Successfully"
+            );
+
+        }else{
+
+            response.sendRedirect(
+                request.getContextPath()
+                + "/admin/dashboard.jsp?page=doctors"
+                + "&error=Failed To Update Doctor"
+            );
+
+        }
     }
 }

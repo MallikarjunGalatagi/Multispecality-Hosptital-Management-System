@@ -26,7 +26,7 @@ String appointmentSuccess =
 if(appointmentSuccess != null){
 %>
 
-<div class="success-message">
+<div id="successMessage" class="success-message">
 
     <%= appointmentSuccess %>
 
@@ -88,5 +88,22 @@ session.removeAttribute(
         </button>
 
     </form>
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const successMessage = document.getElementById("successMessage");
+
+    if (successMessage) {
+
+        setTimeout(function () {
+
+            successMessage.style.display = "none";
+
+        }, 2000);
+
+    }
+
+});
+</script>
 
 </div>

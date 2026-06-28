@@ -12,21 +12,39 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/DeleteDepartmentServlet")
 public class DeleteDepartmentServlet extends HttpServlet {
+
     private static final long serialVersionUID = 1L;
 
-    public DeleteDepartmentServlet() {
-        super();
-    }
-
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request,
+                         HttpServletResponse response)
             throws ServletException, IOException {
 
-        int departmentId = Integer.parseInt(request.getParameter("id"));
+        int departmentId =
+                Integer.parseInt(request.getParameter("id"));
 
-        DepartmentDAO departmentDAO = new DepartmentDAO();
-        departmentDAO.deleteDepartment(departmentId);
+        DepartmentDAO departmentDAO =
+                new DepartmentDAO();
 
-        response.sendRedirect("admin/view_dept.jsp");
+        boolean status =
+                departmentDAO.deleteDepartment(departmentId);
+
+        if (status) {
+
+            response.sendRedirect(
+                request.getContextPath()
+                + "/admin/dashboard.jsp?page=departments"
+                + "&success=Department Deleted Successfully"
+            );
+
+        } else {
+
+            response.sendRedirect(
+                request.getContextPath()
+                + "/admin/dashboard.jsp?page=departments"
+                + "&error=Failed To Delete Department"
+            );
+
+        }
     }
 }

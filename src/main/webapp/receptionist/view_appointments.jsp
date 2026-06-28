@@ -5,149 +5,236 @@
 
 <%
 Receptionist receptionist =
-        (Receptionist) session.getAttribute("loggedInReceptionist");
+(Receptionist) session.getAttribute(
+"loggedInReceptionist");
 
-if(receptionist == null){
-    response.sendRedirect("receptionist_login.jsp");
-    return;
+if (receptionist == null) {
+response.sendRedirect(
+"receptionist_login.jsp");
+return;
 }
 
 AppointmentDAO appointmentDAO =
-        new AppointmentDAO();
+new AppointmentDAO();
 
 List<Appointment> appointmentList =
-        appointmentDAO.getAllAppointments();
+appointmentDAO.getAllAppointments();
 %>
 
-<div class="content-card">
+<h2 class="page-title">
+    <i class="fas fa-calendar-check"></i>
+    Appointment Requests
+</h2>
 
-    <h2 class="page-title">
-        <i class="fas fa-calendar-check"></i>
-        Appointment Requests
-    </h2>
+<p class="auth-subtitle">
+    Manage patient appointment requests and schedules.
+</p>
 
-    <p class="auth-subtitle">
-        Manage patient appointment requests and schedules.
-    </p>
+<table class="appointment-table appointment-full-table">
 
-    <div class="table-container">
+<thead>
 
-        <table class="appointment-table">
+<tr>
 
-            <thead>
+<th>ID</th>
 
-                <tr>
-                    <th>ID</th>
-                    <th>Patient</th>
-                    <th>Doctor</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
+<th>Patient</th>
 
-            </thead>
+<th>Doctor</th>
 
-            <tbody>
+<th>Status</th>
 
-            <%
-            if(appointmentList.isEmpty()){
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<%
+
+if (appointmentList.isEmpty()) {
+
+%>
+
+<tr>
+
+<td colspan="5"
+style="text-align:center;padding:25px;">
+
+No Appointment Requests Found
+
+</td>
+
+</tr>
+
+<%
+
+} else {
+
+for (Appointment appointment : appointmentList) {
+
+String status =
+appointment.getStatus();
+
+String statusClass =
+"status-pending";
+
+if ("Confirmed".equalsIgnoreCase(status)) {
+
+statusClass =
+"status-approved";
+
+}
+
+else if ("Rejected".equalsIgnoreCase(status)) {
+
+statusClass =
+"status-cancelled";
+
+}
+
+else if ("Rescheduled".equalsIgnoreCase(status)) {
+
+statusClass =
+"status-approved";
+
+}
+
+%>
+
+<tr>
+
+<td>
+<%= appointment.getAppointmentId() %>
+</td>
+
+<td>
+<%= appointment.getPatientName() %>
+</td>
+
+<td>
+<%= appointment.getDoctorName() %>
+</td>
+
+<td>
+
+<span class="status-badge <%= statusClass %>">
+
+<%= status %>
+
+</span>
+
+</td>
+
+<td>
+
+<%
+
+if ("Pending".equalsIgnoreCase(status)) {
+
+%>
+
+<a
+href="dashboard.jsp?page=confirm&id=<%= appointment.getAppointmentId() %>"
+style="
+display:inline-block;
+min-width:60px;
+padding:6px 12px;
+border-radius:8px;
+background:linear-gradient(135deg,#f97316,#fb923c);
+color:#fff;
+font-size:13px;
+font-weight:600;
+text-decoration:none;
+text-align:center;
+transition:.3s;">
+
+Manage
+
+</a>
+
+<%
+
+}
+
+else if ("Confirmed".equalsIgnoreCase(status)) {
+
+%>
+
+<%
+
+            } else if ("Confirmed"
+                    .equalsIgnoreCase(
+                            status)) {
+
             %>
 
-                <tr>
+                <span style="
+                    color:#000;
+                    font-size:14px;
+                    font-weight:600;">
 
-                    <td colspan="7"
-                        style="text-align:center;padding:25px;">
+                    Confirmed
 
-                        No Appointment Requests Found
-
-                    </td>
-
-                </tr>
+                </span>
 
             <%
+
             }
-            else{
 
-                for(Appointment appointment
-                        : appointmentList){
+            else if ("Rejected"
+                    .equalsIgnoreCase(
+                            status)) {
+
             %>
 
-                <tr>
+                <span style="
+                    color:#000;
+                    font-size:14px;
+                    font-weight:600;">
 
-                    <td>
-                        <%= appointment.getAppointmentId() %>
-                    </td>
+                    Rejected
 
-                    <td>
-                        <%= appointment.getPatientName() %>
-                    </td>
-
-                    <td>
-                        <%= appointment.getDoctorName() %>
-                    </td>
-
-                    <td>
-                        <%= appointment.getAppointmentDate() == null
-                        ? "-"
-                        : appointment.getAppointmentDate() %>
-                    </td>
-
-                    <td>
-                        <%= appointment.getAppointmentTime() == null
-                        ? "-"
-                        : appointment.getAppointmentTime() %>
-                    </td>
-
-                    <td>
-
-                        <%
-                        String status =
-                                appointment.getStatus();
-
-                        String statusClass =
-                                "status-pending";
-
-                        if("APPROVED".equalsIgnoreCase(status)){
-                            statusClass =
-                                    "status-approved";
-                        }
-                        else if("REJECTED".equalsIgnoreCase(status)){
-                            statusClass =
-                                    "status-cancelled";
-                        }
-                        %>
-
-                        <span class="status-badge <%= statusClass %>">
-
-                            <%= status %>
-
-                        </span>
-
-                    </td>
-
-                    <td>
-
-                        <a href="confirm_appointment.jsp?id=<%= appointment.getAppointmentId() %>"
-                           class="card-btn">
-
-                            Manage
-
-                        </a>
-
-                    </td>
-
-                </tr>
+                </span>
 
             <%
-                }
+
             }
+
+            else if ("Rescheduled"
+                    .equalsIgnoreCase(
+                            status)) {
+
             %>
 
-            </tbody>
+                <span style="
+                    color:#000;
+                    font-size:14px;
+                    font-weight:600;">
 
-        </table>
+                    Rescheduled
 
-    </div>
+                </span>
 
-</div>
+            <%
+
+            }
+
+            %>
+
+        </td>
+
+    </tr>
+
+<%
+
+    }
+}
+
+%>
+
+</tbody>
+
+</table>

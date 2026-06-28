@@ -30,9 +30,8 @@ notificationDAO.getNotifications(
 1);
 %>
 
-<div class="content-card">
 
-```
+
 <h2 class="page-title">
 
     <i class="fas fa-bell"></i>

@@ -25,9 +25,10 @@ if (selectedPage == null) {
 <link rel="stylesheet" href="../css/navbar.css">
 <link rel="stylesheet" href="../css/footer.css">
 <link rel="stylesheet" href="../css/common.css">
-<link rel="stylesheet" href="../css/doctor.css">
 <link rel="stylesheet" href="../css/auth.css">
 <link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/doctor.css">
+
 
 
 <link rel="stylesheet"
@@ -68,20 +69,28 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
             	}
 
             else if("appointments".equals(selectedPage)){
-            %>
+            	%>
 
-                <jsp:include page="view_my_appointment.jsp"/>
+            	    <jsp:include page="view_my_appointment.jsp"/>
 
-            <%
-            }
+            	<%
+            	}
 
-            else if("notifications".equals(selectedPage)){
-            %>
+            	else if("addPrescription".equals(selectedPage)){
+            	%>
 
-                <jsp:include page="notifications.jsp"/>
+            	    <jsp:include page="add_prescription.jsp"/>
 
-            <%
-            }
+            	<%
+            	}
+
+            	else if("notifications".equals(selectedPage)){
+            	%>
+
+            	    <jsp:include page="notifications.jsp"/>
+
+            	<%
+            	}
 
             else{
             %>

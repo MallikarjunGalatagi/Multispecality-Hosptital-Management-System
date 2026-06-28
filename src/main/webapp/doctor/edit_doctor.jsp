@@ -1,99 +1,88 @@
-<%@ page import="java.sql.*" %>
-<%@ page import="com.hospital_management.util.DBConnection" %>
+<%@ page import="com.hospital_management.model.Receptionist"%>
 
 <%
-    int doctorId = Integer.parseInt(request.getParameter("id"));
+Receptionist receptionist =
+(Receptionist) session.getAttribute("loggedInReceptionist");
 
-    Connection con = DBConnection.getConnection();
-
-    String query = "SELECT * FROM doctors WHERE doctor_id = ?";
-
-    PreparedStatement ps = con.prepareStatement(query);
-    ps.setInt(1, doctorId);
-
-    ResultSet rs = ps.executeQuery();
-
-    String fullName = "";
-    String username = "";
-    String email = "";
-    String mobile = "";
-    String gender = "";
-    String qualification = "";
-    int departmentId = 0;
-    String password = "";
-
-    if (rs.next()) {
-        fullName = rs.getString("full_name");
-        username = rs.getString("username");
-        email = rs.getString("email");
-        mobile = rs.getString("mobile");
-        gender = rs.getString("gender");
-        qualification = rs.getString("qualification");
-        departmentId = rs.getInt("department_id");
-        password = rs.getString("password");
-    }
-
-    rs.close();
-    ps.close();
-    con.close();
+if(receptionist == null){
+response.sendRedirect("receptionist_login.jsp");
+return;
+}
 %>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Edit Doctor</title>
-</head>
-<body>
+<div class="auth-card profile-card">
 
-    <h1>Edit Doctor</h1>
-    <hr>
 
-    <form action="../UpdateDoctorServlet" method="post">
 
-        <input type="hidden" name="doctorId" value="<%= doctorId %>">
+<h2>
+		<i class="fas fa-user"></i> My Profile
+	</h2>
+<p class="auth-subtitle">
+    View your receptionist account information
+</p>
 
-        <label>Full Name:</label><br>
-        <input type="text" name="fullName" value="<%= fullName %>" required>
-        <br><br>
+<div class="profile-details">
 
-        <label>Username:</label><br>
-        <input type="text" name="username" value="<%= username %>" required>
-        <br><br>
+    <div class="input-group">
 
-        <label>Email:</label><br>
-        <input type="email" name="email" value="<%= email %>" required>
-        <br><br>
+        <label>Receptionist ID</label>
 
-        <label>Mobile:</label><br>
-        <input type="text" name="mobile" value="<%= mobile %>" required>
-        <br><br>
+        <input type="text"
+               value="<%= receptionist.getReceptionistId() %>"
+               readonly>
 
-        <label>Gender:</label><br>
-        <select name="gender" required>
-            <option value="Male" <%= gender.equals("Male") ? "selected" : "" %>>Male</option>
-            <option value="Female" <%= gender.equals("Female") ? "selected" : "" %>>Female</option>
-        </select>
-        <br><br>
+    </div>
 
-        <label>Qualification:</label><br>
-        <input type="text" name="qualification" value="<%= qualification %>" required>
-        <br><br>
+    <div class="input-group">
 
-        <label>Department ID:</label><br>
-        <input type="number" name="departmentId" value="<%= departmentId %>" required>
-        <br><br>
+        <label>Full Name</label>
 
-        <label>Password:</label><br>
-        <input type="text" name="password" value="<%= password %>" required>
-        <br><br>
+        <input type="text"
+               value="<%= receptionist.getFullName() %>"
+               readonly>
 
-        <button type="submit">Update Doctor</button>
+    </div>
 
-    </form>
+    <div class="input-group">
 
-    <br>
-    <a href="view_doctor.jsp">Back to View Doctors</a>
+        <label>Username</label>
 
-</body>
-</html>
+        <input type="text"
+               value="<%= receptionist.getUsername() %>"
+               readonly>
+
+    </div>
+
+    <div class="input-group">
+
+        <label>Email</label>
+
+        <input type="email"
+               value="<%= receptionist.getEmail() %>"
+               readonly>
+
+    </div>
+
+    <div class="input-group">
+
+        <label>Mobile</label>
+
+        <input type="text"
+               value="<%= receptionist.getMobile() %>"
+               readonly>
+
+    </div>
+
+    <div class="input-group">
+
+        <label>Account Created</label>
+
+        <input type="text"
+               value="<%= receptionist.getCreatedAt() %>"
+               readonly>
+
+    </div>
+
+</div>
+
+</div>

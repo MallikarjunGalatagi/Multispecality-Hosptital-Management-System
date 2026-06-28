@@ -23,166 +23,210 @@ public class UpdateAppointmentStatusServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request,
-            HttpServletResponse response)
-            throws ServletException, IOException {
+    HttpServletResponse response)
+    throws ServletException, IOException {
 
-        // Supports both GET and POST
-        String appointmentIdParam =
-                request.getParameter("appointmentId");
+    String appointmentIdParam =
+            request.getParameter("appointmentId");
 
-        if (appointmentIdParam == null
-                || appointmentIdParam.trim().isEmpty()) {
-            appointmentIdParam =
-                    request.getParameter("id");
-        }
+    if (appointmentIdParam == null
+            || appointmentIdParam.trim().isEmpty()) {
 
-        int appointmentId =
-                Integer.parseInt(appointmentIdParam);
+        appointmentIdParam =
+                request.getParameter("id");
+    }
 
-        String status =
-                request.getParameter("status");
+    int appointmentId =
+            Integer.parseInt(appointmentIdParam);
 
-        // Appointment Date & Time from Receptionist
-        String appointmentDate =
-                request.getParameter("appointmentDate");
+    String status =
+            request.getParameter("status");
 
-        String appointmentTime =
-                request.getParameter("appointmentTime");
+    String appointmentDate =
+            request.getParameter("appointmentDate");
 
-        System.out.println("======================================");
-        System.out.println("Appointment ID : " + appointmentId);
-        System.out.println("Status         : " + status);
-        System.out.println("Date           : " + appointmentDate);
-        System.out.println("Time           : " + appointmentTime);
-        System.out.println("======================================");
+    String appointmentTime =
+            request.getParameter("appointmentTime");
 
-        AppointmentDAO appointmentDAO =
-                new AppointmentDAO();
+    AppointmentDAO appointmentDAO =
+            new AppointmentDAO();
 
-        boolean updated = false;
+    boolean updated = false;
 
-        // ======================================
-        // CONFIRM APPOINTMENT
-        // ======================================
-        if ("Confirmed".equalsIgnoreCase(status)) {
+    // ======================================
+    // CONFIRM APPOINTMENT
+    // ======================================
 
-            updated =
-                    appointmentDAO.updateAppointmentStatus(
-                            appointmentId,
-                            status,
-                            appointmentDate,
-                            appointmentTime);
+    if ("Confirmed".equalsIgnoreCase(status)) {
 
-        }
-        // ======================================
-        // REJECT APPOINTMENT
-        // ======================================
-        else if ("Rejected".equalsIgnoreCase(status)) {
+        updated =
+                appointmentDAO.updateAppointmentStatus(
+                        appointmentId,
+                        "Confirmed",
+                        appointmentDate,
+                        appointmentTime);
+    }
 
-            updated =
-                    appointmentDAO.updateAppointmentStatus(
-                            appointmentId,
-                            status,
-                            null,
-                            null);
-        }
+    // ======================================
+    // REJECT APPOINTMENT
+    // ======================================
 
-        if (updated) {
+    else if ("Rejected".equalsIgnoreCase(status)) {
 
-            // Fetch Appointment Details
-            Appointment appointment =
-                    appointmentDAO.getAppointmentById(
-                            appointmentId);
+        updated =
+                appointmentDAO.updateAppointmentStatus(
+                        appointmentId,
+                        "Rejected",
+                        null,
+                        null);
+    }
 
-            if (appointment != null) {
+    // ======================================
+    // RESCHEDULE APPOINTMENT
+    // ======================================
 
-                NotificationDAO notificationDAO =
-                        new NotificationDAO();
+    else if ("Rescheduled".equalsIgnoreCase(status)) {
 
-                // ======================================
-                // APPOINTMENT CONFIRMED
-                // ======================================
-                if ("Confirmed".equalsIgnoreCase(status)) {
+        updated =
+                appointmentDAO.updateAppointmentStatus(
+                        appointmentId,
+                        "Rescheduled",
+                        appointmentDate,
+                        appointmentTime);
+    }
 
-                    // Patient Notification
-                    Notification patientNotification =
-                            new Notification();
+    // ======================================
+    // NOTIFICATIONS
+    // ======================================
 
-                    patientNotification.setUserType(
-                            "PATIENT");
-                    patientNotification.setUserId(
-                            appointment.getPatientId());
+    if (updated) {
 
-                    patientNotification.setTitle(
-                            "Appointment Confirmed");
+        Appointment appointment =
+                appointmentDAO.getAppointmentById(
+                        appointmentId);
 
-                    patientNotification.setMessage(
-                            "Your appointment with "
-                                    + appointment.getDoctorName()
-                                    + " has been confirmed for "
-                                    + appointmentDate
-                                    + " at "
-                                    + appointmentTime
-                                    + ".");
+        if (appointment != null) {
 
-                    notificationDAO.addNotification(
-                            patientNotification);
+            NotificationDAO notificationDAO =
+                    new NotificationDAO();
 
-                    // Doctor Notification
-                    Notification doctorNotification =
-                            new Notification();
+            if ("Confirmed".equalsIgnoreCase(status)) {
 
-                    doctorNotification.setUserType(
-                            "DOCTOR");
-                    doctorNotification.setUserId(
-                            appointment.getDoctorId());
+                Notification patientNotification =
+                        new Notification();
 
-                    doctorNotification.setTitle(
-                            "New Confirmed Appointment");
+                patientNotification.setUserType(
+                        "PATIENT");
 
-                    doctorNotification.setMessage(
-                            "A new appointment has been confirmed and assigned to you.");
+                patientNotification.setUserId(
+                        appointment.getPatientId());
 
-                    notificationDAO.addNotification(
-                            doctorNotification);
-                }
+                patientNotification.setTitle(
+                        "Appointment Confirmed");
 
-                // ======================================
-                // APPOINTMENT REJECTED
-                // ======================================
-                else if ("Rejected".equalsIgnoreCase(status)) {
+                patientNotification.setMessage(
+                        "Your appointment with "
+                        + appointment.getDoctorName()
+                        + " has been confirmed.");
 
-                    Notification patientNotification =
-                            new Notification();
+                notificationDAO.addNotification(
+                        patientNotification);
+            }
 
-                    patientNotification.setUserType(
-                            "PATIENT");
-                    patientNotification.setUserId(
-                            appointment.getPatientId());
+            else if ("Rejected".equalsIgnoreCase(status)) {
 
-                    patientNotification.setTitle(
-                            "Appointment Rejected");
+                Notification patientNotification =
+                        new Notification();
 
-                    patientNotification.setMessage(
-                            "Unfortunately, your appointment request has been rejected. Please book another appointment.");
+                patientNotification.setUserType(
+                        "PATIENT");
 
-                    notificationDAO.addNotification(
-                            patientNotification);
-                }
+                patientNotification.setUserId(
+                        appointment.getPatientId());
+
+                patientNotification.setTitle(
+                        "Appointment Rejected");
+
+                patientNotification.setMessage(
+                        "Your appointment request has been rejected.");
+
+                notificationDAO.addNotification(
+                        patientNotification);
+            }
+
+            else if ("Rescheduled".equalsIgnoreCase(status)) {
+
+                Notification patientNotification =
+                        new Notification();
+
+                patientNotification.setUserType(
+                        "PATIENT");
+
+                patientNotification.setUserId(
+                        appointment.getPatientId());
+
+                patientNotification.setTitle(
+                        "Appointment Rescheduled");
+
+                patientNotification.setMessage(
+                        "Your appointment has been rescheduled to "
+                        + appointmentDate
+                        + " at "
+                        + appointmentTime);
+
+                notificationDAO.addNotification(
+                        patientNotification);
             }
         }
+    }
 
-        // Redirect back to Receptionist Appointment Page
+    // ======================================
+    // REDIRECT WITH SUCCESS MESSAGE
+    // ======================================
+
+    if ("Confirmed".equalsIgnoreCase(status)) {
+
         response.sendRedirect(
                 request.getContextPath()
-                + "/receptionist/view_appointments.jsp");
+                + "/receptionist/dashboard.jsp?page=confirm&id="
+                + appointmentId
+                + "&success=confirmed");
+
+        return;
+    }
+
+    if ("Rejected".equalsIgnoreCase(status)) {
+
+        response.sendRedirect(
+                request.getContextPath()
+                + "/receptionist/dashboard.jsp?page=confirm&id="
+                + appointmentId
+                + "&success=rejected");
+
+        return;
+    }
+
+    if ("Rescheduled".equalsIgnoreCase(status)) {
+
+        response.sendRedirect(
+                request.getContextPath()
+                + "/receptionist/dashboard.jsp?page=confirm&id="
+                + appointmentId
+                + "&success=rescheduled");
+
+        return;
+    }
+    
+
     }
 
     @Override
     protected void doPost(HttpServletRequest request,
-            HttpServletResponse response)
-            throws ServletException, IOException {
+    HttpServletResponse response)
+    throws ServletException, IOException {
 
-        doGet(request, response);
+    
+    doGet(request, response);
+
     }
 }

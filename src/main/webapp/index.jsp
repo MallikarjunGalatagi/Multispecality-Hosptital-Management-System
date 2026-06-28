@@ -91,7 +91,7 @@
 			<h3>Receptionist</h3>
 
 			<p>
-				Queue Management<br> Schedule Appointments<br> Manage
+				Queue Management<br> Schedule Appointments<br>Confirm/Reject Appointments<br> Manage
 				Patient Records
 			</p>
 

@@ -140,4 +140,77 @@ public class ReceptionistDAO {
 
         return receptionistList;
     }
+    
+ // Delete Receptionist
+    public boolean deleteReceptionist(int receptionistId) {
+
+        boolean status = false;
+
+        try {
+
+            Connection con =
+                    DBConnection.getConnection();
+
+            String query =
+                    "DELETE FROM receptionists WHERE receptionist_id = ?";
+
+            PreparedStatement ps =
+                    con.prepareStatement(query);
+
+            ps.setInt(1, receptionistId);
+
+            int rowsAffected =
+                    ps.executeUpdate();
+
+            if(rowsAffected > 0) {
+                status = true;
+            }
+
+            ps.close();
+            con.close();
+
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return status;
+    }
+    public boolean updateReceptionist(Receptionist receptionist) {
+
+        boolean status = false;
+
+        try {
+
+            Connection con =
+                    DBConnection.getConnection();
+
+            String query =
+                    "UPDATE receptionists "
+                  + "SET full_name=?, username=?, "
+                  + "email=?, mobile=?, password=? "
+                  + "WHERE receptionist_id=?";
+
+            PreparedStatement ps =
+                    con.prepareStatement(query);
+
+            ps.setString(1, receptionist.getFullName());
+            ps.setString(2, receptionist.getUsername());
+            ps.setString(3, receptionist.getEmail());
+            ps.setString(4, receptionist.getMobile());
+            ps.setString(5, receptionist.getPassword());
+            ps.setInt(6, receptionist.getReceptionistId());
+
+            status = ps.executeUpdate() > 0;
+
+            ps.close();
+            con.close();
+
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return status;
+    }
 }

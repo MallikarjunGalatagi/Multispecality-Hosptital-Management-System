@@ -13,45 +13,60 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/AddReceptionistServlet")
 public class AddReceptionistServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
 
-    public AddReceptionistServlet() {
-        super();
-    }
+    private static final long serialVersionUID = 1L;
 
     @Override
     protected void doPost(HttpServletRequest request,
-            HttpServletResponse response)
+                          HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Get form data
-        String fullName = request.getParameter("fullName");
-        String username = request.getParameter("username");
-        String email = request.getParameter("email");
-        String mobile = request.getParameter("mobile");
-        String password = request.getParameter("password");
+        String fullName =
+                request.getParameter("fullName");
 
-        // Create Receptionist Object
-        Receptionist receptionist = new Receptionist();
+        String username =
+                request.getParameter("username");
+
+        String email =
+                request.getParameter("email");
+
+        String mobile =
+                request.getParameter("mobile");
+
+        String password =
+                request.getParameter("password");
+
+        Receptionist receptionist =
+                new Receptionist();
+
         receptionist.setFullName(fullName);
         receptionist.setUsername(username);
         receptionist.setEmail(email);
         receptionist.setMobile(mobile);
         receptionist.setPassword(password);
 
-        // Save Receptionist
-        ReceptionistDAO receptionistDAO = new ReceptionistDAO();
+        ReceptionistDAO receptionistDAO =
+                new ReceptionistDAO();
+
         boolean status =
                 receptionistDAO.addReceptionist(receptionist);
 
-        if (status) {
+        if(status){
+
             response.sendRedirect(
                 request.getContextPath()
-                + "/admin/view_receptionist.jsp");
-        } else {
+                + "/admin/dashboard.jsp?page=receptionists"
+                + "&success=Receptionist Added Successfully"
+            );
+
+        }else{
+
             response.sendRedirect(
                 request.getContextPath()
-                + "/admin/add_receptionist.jsp");
+                + "/admin/dashboard.jsp?page=addReceptionist"
+                + "&error=Failed To Add Receptionist"
+            );
+
         }
     }
 }

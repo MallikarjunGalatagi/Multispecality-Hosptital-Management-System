@@ -13,14 +13,12 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/AddDoctorServlet")
 public class AddDoctorServlet extends HttpServlet {
+
     private static final long serialVersionUID = 1L;
 
-    public AddDoctorServlet() {
-        super();
-    }
-
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request,
+                          HttpServletResponse response)
             throws ServletException, IOException {
 
         String fullName = request.getParameter("fullName");
@@ -29,10 +27,30 @@ public class AddDoctorServlet extends HttpServlet {
         String mobile = request.getParameter("mobile");
         String gender = request.getParameter("gender");
         String qualification = request.getParameter("qualification");
-        int departmentId = Integer.parseInt(request.getParameter("departmentId"));
         String password = request.getParameter("password");
 
+        int departmentId =
+                Integer.parseInt(request.getParameter("departmentId"));
+
+        // Validation
+        if (fullName == null || fullName.trim().isEmpty()
+                || username == null || username.trim().isEmpty()
+                || email == null || email.trim().isEmpty()
+                || mobile == null || mobile.trim().isEmpty()
+                || gender == null || gender.trim().isEmpty()
+                || qualification == null || qualification.trim().isEmpty()
+                || password == null || password.trim().isEmpty()) {
+
+            response.sendRedirect(
+                    request.getContextPath()
+                    + "/admin/dashboard.jsp?page=addDoctor"
+                    + "&error=All Fields Are Required");
+
+            return;
+        }
+
         Doctor doctor = new Doctor();
+
         doctor.setFullName(fullName);
         doctor.setUsername(username);
         doctor.setEmail(email);
@@ -43,12 +61,22 @@ public class AddDoctorServlet extends HttpServlet {
         doctor.setPassword(password);
 
         DoctorDAO doctorDAO = new DoctorDAO();
+
         boolean status = doctorDAO.addDoctor(doctor);
 
         if (status) {
-            response.sendRedirect(request.getContextPath() + "/admin/add_doctor.jsp");
+
+            response.sendRedirect(
+                    request.getContextPath()
+                    + "/admin/dashboard.jsp?page=doctors"
+                    + "&success=Doctor Added Successfully");
+
         } else {
-            response.sendRedirect(request.getContextPath() + "/admin/add_doctor.jsp");
+
+            response.sendRedirect(
+                    request.getContextPath()
+                    + "/admin/dashboard.jsp?page=addDoctor"
+                    + "&error=Failed To Add Doctor");
         }
     }
 }

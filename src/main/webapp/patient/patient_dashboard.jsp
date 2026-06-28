@@ -22,12 +22,12 @@ if (selectedPage == null) {
 <meta charset="UTF-8">
 <title>Patient Dashboard</title>
 
+<link rel="stylesheet" href="../css/style.css">
 <link rel="stylesheet" href="../css/navbar.css">
 <link rel="stylesheet" href="../css/footer.css">
+<link rel="stylesheet" href="../css/auth.css">
 <link rel="stylesheet" href="../css/common.css">
 <link rel="stylesheet" href="../css/patient.css">
-<link rel="stylesheet" href="../css/auth.css">
-<link rel="stylesheet" href="../css/style.css">
 
 
 <link rel="stylesheet"

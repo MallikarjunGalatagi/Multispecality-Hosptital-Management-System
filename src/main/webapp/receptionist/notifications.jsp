@@ -21,7 +21,6 @@ List<Notification> notificationList =
                 receptionist.getReceptionistId());
 %>
 
-<div class="content-card">
 
     <h2 class="page-title">
         <i class="fas fa-bell"></i>
